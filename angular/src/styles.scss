@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 50px 50px;
+  background-color: var(--bs-body-bg) !important;
+  color: #1f2a3a;
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: Roboto, serif;
+}
