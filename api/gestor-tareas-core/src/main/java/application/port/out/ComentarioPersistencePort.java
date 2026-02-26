@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ComentarioPersistencePort {
 
-    Comentario save(Comentario tarea);
+    Comentario save(Comentario comentario);
 
     Optional<Comentario> findById(Long id);
 

@@ -1,5 +1,6 @@
 package adapter.in.controller;
 
+import adapter.in.dto.ParametrosCrearTarea;
 import adapter.in.dto.TareaResponse;
 import adapter.in.mapper.TareaWebMapper;
 import application.port.in.tarea.ActualizarTareaUseCase;
@@ -35,16 +36,16 @@ public class TareaController {
         this.tareaWebMapper = tareaWebMapper;
     }
 
-    @PostMapping("/crear")
+    @PostMapping("/")
     public void create(@RequestBody ParametrosCrearTarea request) {
-        crearTareaUseCase.crearTarea()
+        crearTareaUseCase.crearTarea(tareaWebMapper.toCommand(request));
     }
 
     @GetMapping
     public ResponseEntity<List<TareaResponse>> getAll() {
         List<Tarea> tareas = obtenerTareaUseCase.consultarTareas(new ArrayList<>());
 
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(tareaWebMapper.toResponseList(tareas));
     }
 
     @GetMapping("/{id}")
@@ -54,15 +55,16 @@ public class TareaController {
         return ResponseEntity.ok(this.tareaWebMapper.toResponse(tarea));
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<TareaResponse> put(@PathVariable Long id,
-                                      @RequestBody ParametrosActualizarTarea parametrosActualizarTarea) {
-        Tarea tareaActualizada = actualizarTareaUseCase.actualizarTarea();
+                                      @RequestBody ParametrosCrearTarea parametrosActualizarTarea) {
+        parametrosActualizarTarea.setId(id);
+        Tarea tareaActualizada = actualizarTareaUseCase.actualizarTarea(tareaWebMapper.toCommand(parametrosActualizarTarea));
 
         return ResponseEntity.ok(this.tareaWebMapper.toResponse(tareaActualizada));
     }
 
-    @DeleteMapping("/borrar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         eliminarTareaUseCase.eliminarTarea(id); //TODO PA DECIR UN OKAY O ALGO
     }

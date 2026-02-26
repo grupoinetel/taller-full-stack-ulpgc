@@ -4,6 +4,8 @@ import application.port.in.comentario.ActualizarComentarioUseCase;
 import application.port.in.comentario.CrearComentarioUseCase;
 import application.port.in.comentario.EliminarComentarioUseCase;
 import application.port.out.ComentarioPersistencePort;
+import domain.model.Comentario;
+import exception.ComentarioNotFoundException;
 
 public class ComentarioService implements
         ActualizarComentarioUseCase,
@@ -14,5 +16,29 @@ public class ComentarioService implements
 
     public ComentarioService(ComentarioPersistencePort comentarioPersistencePort) {
         this.comentarioPersistencePort = comentarioPersistencePort;
+    }
+
+    public Comentario actualizarComentario(Comentario nuevoComentario) {
+        Comentario comentario = obtenerComentario(nuevoComentario.getId());
+
+        comentario.setFechaCreacion(nuevoComentario.getFechaCreacion());
+        comentario.setMensaje(nuevoComentario.getMensaje());
+        comentario.setId(nuevoComentario.getId());
+        comentario.setTarea(nuevoComentario.getTarea());
+        comentario.setUsuarioCreador(nuevoComentario.getUsuarioCreador());
+
+        return comentarioPersistencePort.save(comentario);
+    }
+
+    public Comentario crearComentario(Comentario comentario) {
+        return comentarioPersistencePort.save(comentario);
+    }
+
+    public void eliminarComentario(Long id) {
+        comentarioPersistencePort.delete(id);
+    }
+
+    private Comentario obtenerComentario(Long id) {
+        return comentarioPersistencePort.findById(id).orElseThrow(ComentarioNotFoundException::new);
     }
 }

@@ -14,4 +14,12 @@ public class Usuario {
     String username;
     String avatar; //TODO revisar tipo de variable
     List<Tarea> tareas;
+
+    public Usuario(Long id, String nombreUsuario) {
+        this.id = id;
+        this.nombre = nombreUsuario;
+    }
+
+    public Usuario() {
+    }
 }

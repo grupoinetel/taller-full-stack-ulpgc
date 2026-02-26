@@ -11,13 +11,61 @@ public class ComentarioJpaEntity {
     @Id
     Long id;
 
-    Date creation_date;
+    Date fechaCreacion;
 
-    String message;
+    String mensaje;
 
     @ManyToOne
-    UsuarioJpaEntity author;
+    UsuarioJpaEntity autor;
 
     @ManyToOne
     TareaJpaEntity tarea;
+
+    public ComentarioJpaEntity(Long id) {
+        this.id = id;
+    }
+
+    public ComentarioJpaEntity() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public UsuarioJpaEntity getAutor() {
+        return autor;
+    }
+
+    public void setAutor(UsuarioJpaEntity autor) {
+        this.autor = autor;
+    }
+
+    public TareaJpaEntity getTarea() {
+        return tarea;
+    }
+
+    public void setTarea(TareaJpaEntity tarea) {
+        this.tarea = tarea;
+    }
 }

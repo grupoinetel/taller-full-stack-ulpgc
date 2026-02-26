@@ -1,17 +1,17 @@
-package domain.model;
+package adapter.in.dto;
 
 import domain.enums.EstadoTarea;
 import domain.enums.Prioridad;
+import domain.model.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
 
-@Getter
 @Setter
-public class Tarea {
-    Long id;
+@Getter
+public class ParametrosCrearTarea {
     String numeroTarea;
     Date fechaLimite;
     Prioridad prioridad;
@@ -22,5 +22,5 @@ public class Tarea {
     List<Usuario> usuarios;
     Usuario autor;
 
-    List<Comentario> comentarios;
+    Long id;
 }

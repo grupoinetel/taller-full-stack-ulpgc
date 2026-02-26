@@ -1,5 +1,7 @@
 package adapter.out.persistence.entity;
 
+import domain.enums.EstadoTarea;
+import domain.enums.Prioridad;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -16,25 +18,34 @@ public class TareaJpaEntity {
 
     Integer numTarea;
 
-    Integer priority;
+    @Enumerated(EnumType.STRING)
+    Prioridad prioridad;
 
-    String state;
+    @Enumerated(EnumType.STRING)
+    EstadoTarea estado;
 
-    String description;
+    String descripcion;
 
-    Integer percentage;
+    Integer porcentaje;
 
-    Date final_date;
-    Date creation_date;
+    Date fechaFinalizacion;
+    Date fechaCreacion;
 
     @ManyToOne
-    UsuarioJpaEntity author;
+    UsuarioJpaEntity autor;
 
     @ManyToMany(mappedBy = "tareas")
     List<UsuarioJpaEntity> usuarios;
 
     @OneToMany
     List<ComentarioJpaEntity> comentarios;
+
+    public TareaJpaEntity(Long id) {
+        this.id = id;
+    }
+
+    public TareaJpaEntity() {
+    }
 
     public Long getId() {
         return id;
@@ -52,60 +63,60 @@ public class TareaJpaEntity {
         this.numTarea = numTarea;
     }
 
-    public Integer getPriority() {
-        return priority;
+    public Prioridad getPrioridad() {
+        return prioridad;
     }
 
-    public void setPriority(Integer priority) {
-        this.priority = priority;
+    public void setPrioridad(Prioridad priority) {
+        this.prioridad = priority;
     }
 
-    public String getState() {
-        return state;
+    public EstadoTarea getEstado() {
+        return estado;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setEstado(EstadoTarea state) {
+        this.estado = state;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescripcion(String description) {
+        this.descripcion = description;
     }
 
-    public Integer getPercentage() {
-        return percentage;
+    public Integer getPorcentaje() {
+        return porcentaje;
     }
 
-    public void setPercentage(Integer percentage) {
-        this.percentage = percentage;
+    public void setPorcentaje(Integer percentage) {
+        this.porcentaje = percentage;
     }
 
-    public Date getFinal_date() {
-        return final_date;
+    public Date getFechaFinalizacion() {
+        return fechaFinalizacion;
     }
 
-    public void setFinal_date(Date final_date) {
-        this.final_date = final_date;
+    public void setFechaFinalizacion(Date final_date) {
+        this.fechaFinalizacion = final_date;
     }
 
-    public Date getCreation_date() {
-        return creation_date;
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setCreation_date(Date creation_date) {
-        this.creation_date = creation_date;
+    public void setFechaCreacion(Date creation_date) {
+        this.fechaCreacion = creation_date;
     }
 
-    public UsuarioJpaEntity getAuthor() {
-        return author;
+    public UsuarioJpaEntity getAutor() {
+        return autor;
     }
 
-    public void setAuthor(UsuarioJpaEntity author) {
-        this.author = author;
+    public void setAutor(UsuarioJpaEntity author) {
+        this.autor = author;
     }
 
     public List<UsuarioJpaEntity> getUsuarios() {

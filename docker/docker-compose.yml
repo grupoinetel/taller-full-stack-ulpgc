@@ -9,12 +9,25 @@ services:
       - "5500:5500"
     environment:
       ORACLE_PASSWORD: MYSECRETPASSWORD123
-      APP_USER: MYSECRETPASSWORD123
-      APP_USER_PASSWORD: MYSECRETPASSWORD123
+      APP_USER: appuser
+      APP_USER_PASSWORD: apppassword
     volumes:
       - oracle-data:/opt/oracle/oradata
       - ./initdb:/container-entrypoint-initdb.d
     restart: unless-stopped
 
+  api:
+    build:
+      context: ../api
+    container_name: api-tomcat
+    ports:
+      - "8080:8080"
+    depends_on:
+      - oracle-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-db:1521/XEPDB1
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppassword
+    restart: always
 volumes:
   oracle-data:

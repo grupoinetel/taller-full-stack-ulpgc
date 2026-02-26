@@ -1,5 +1,6 @@
 package application.service;
 
+import application.port.commands.CrearActualizarTareaCommand;
 import application.port.in.tarea.ActualizarTareaUseCase;
 import application.port.in.tarea.CrearTareaUseCase;
 import application.port.in.tarea.EliminarTareaUseCase;
@@ -22,7 +23,7 @@ public class TareaService implements
         this.tareaPersistencePort = tareaPersistencePort;
     }
 
-    public Tarea actualizarTarea(Tarea nuevaTarea) {
+    public Tarea actualizarTarea(CrearActualizarTareaCommand nuevaTarea) {
 
         Tarea tarea = obtenerTarea(nuevaTarea.getId());
 
@@ -39,8 +40,20 @@ public class TareaService implements
         return tareaPersistencePort.save(tarea);
     }
 
-    public Tarea crearTarea(Tarea tarea) {
-        return tareaPersistencePort.save(tarea);
+    public Tarea crearTarea(CrearActualizarTareaCommand tarea) {
+        Tarea tareaDomain = new Tarea();
+
+        tareaDomain.setDescripcion(tarea.getDescripcion());
+        tareaDomain.setFechaLimite(tarea.getFechaLimite());
+        tareaDomain.setNumeroTarea(tarea.getNumeroTarea());
+        tareaDomain.setFechaCreacion(tarea.getFechaCreacion());
+        tareaDomain.setPrioridad(tarea.getPrioridad());
+        tareaDomain.setEstado(tarea.getEstado());
+        tareaDomain.setPorcentajeRealizado(tarea.getPorcentajeRealizado());
+        tareaDomain.setUsuarios(tarea.getUsuarios());
+        tareaDomain.setAutor(tarea.getAutor());
+
+        return tareaPersistencePort.save(tareaDomain);
     }
 
     public void eliminarTarea(Long id) {
