@@ -5,7 +5,9 @@ import application.port.out.TareaPersistencePort;
 import application.service.ComentarioService;
 import application.service.TareaService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class BeanConfiguration {
 
     @Bean

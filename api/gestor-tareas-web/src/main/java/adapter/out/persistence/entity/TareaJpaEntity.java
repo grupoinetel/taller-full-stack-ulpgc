@@ -34,7 +34,12 @@ public class TareaJpaEntity {
     @ManyToOne
     UsuarioJpaEntity autor;
 
-    @ManyToMany(mappedBy = "tareas")
+    @ManyToMany
+    @JoinTable(
+            name = "TAREA_USUARIO",
+            joinColumns = @JoinColumn(name = "tarea_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
     List<UsuarioJpaEntity> usuarios;
 
     @OneToMany

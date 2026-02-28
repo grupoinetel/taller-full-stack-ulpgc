@@ -8,10 +8,12 @@ import application.port.out.ComentarioPersistencePort;
 import domain.model.Comentario;
 import domain.model.Tarea;
 import domain.model.Usuario;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ComentarioAdapter implements ComentarioPersistencePort {
 
     private final ComentarioSpringRepository comentarioSpringRepository;
