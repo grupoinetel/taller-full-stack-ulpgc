@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "COMMENTS")
+@Table(name = "COMENTARIOS")
 public class ComentarioJpaEntity {
 
     @Id
