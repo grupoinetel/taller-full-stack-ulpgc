@@ -1,0 +1,43 @@
+version: "3"
+
+networks:
+  gestortareas_network:
+    driver: bridge
+
+services:
+  gestortareas_bdd:
+    image: "postgres:15.1"
+    container_name: gestortareas_bdd
+    environment:
+      - POSTGRES_PASSWORD=gestortareas
+      - POSTGRES_USER=gestortareas
+      - POSTGRES_DB=gestortareas
+    ports:
+      - "5432:5432"
+    volumes:
+      - gestortareas_bdd_vol:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d
+    networks:
+      gestortareas_network:
+        aliases:
+          - bdd
+
+  gestortareas_back:
+    build:
+      context: ./api
+    image: gestortareas_back
+    container_name: gestortareas_back
+    depends_on:
+      - gestortareas_bdd
+    ports:
+      - "${HTTP_PORT:-8080}:8080"
+    volumes:
+      - gestortareas_back_tmp_vol:/tmp
+    networks:
+      gestortareas_network:
+        aliases:
+          - back
+
+volumes:
+  gestortareas_bdd_vol:
+  gestortareas_back_tmp_vol:
