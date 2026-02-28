@@ -21,11 +21,11 @@ public class ComentarioService implements
     public Comentario actualizarComentario(Comentario nuevoComentario) {
         Comentario comentario = obtenerComentario(nuevoComentario.getId());
 
-        comentario.setFechaCreacion(nuevoComentario.getFechaCreacion());
+        comentario.setFecha(nuevoComentario.getFecha());
         comentario.setMensaje(nuevoComentario.getMensaje());
         comentario.setId(nuevoComentario.getId());
         comentario.setTarea(nuevoComentario.getTarea());
-        comentario.setUsuarioCreador(nuevoComentario.getUsuarioCreador());
+        comentario.setAutor(nuevoComentario.getAutor());
 
         return comentarioPersistencePort.save(comentario);
     }

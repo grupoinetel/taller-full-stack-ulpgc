@@ -18,7 +18,7 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
 
     private final ComentarioSpringRepository comentarioSpringRepository;
 
-    public ComentarioAdapter(ComentarioSpringRepository comentarioSpringRepository, TareaAdapter tareaAdapter) {
+    public ComentarioAdapter(ComentarioSpringRepository comentarioSpringRepository) {
         this.comentarioSpringRepository = comentarioSpringRepository;
     }
 
@@ -45,11 +45,17 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
     private ComentarioJpaEntity toJpaEntity(Comentario comentario) {
         ComentarioJpaEntity comentarioJpaEntity = new ComentarioJpaEntity();
 
-        comentarioJpaEntity.setFechaCreacion(comentario.getFechaCreacion());
-        comentarioJpaEntity.setMensaje(comentario.getMensaje());
-        comentarioJpaEntity.setAutor(new UsuarioJpaEntity(comentario.getUsuarioCreador().getId()));
         comentarioJpaEntity.setId(comentario.getId());
-        comentarioJpaEntity.setTarea(new TareaJpaEntity(comentario.getTarea().getId()));
+        comentarioJpaEntity.setMensaje(comentario.getMensaje());
+        comentarioJpaEntity.setFecha(comentario.getFecha());
+
+        if (comentario.getAutor() != null && comentario.getAutor().getId() != null) {
+            comentarioJpaEntity.setAutor(new UsuarioJpaEntity(comentario.getAutor().getId()));
+        }
+
+        if (comentario.getTarea() != null && comentario.getTarea().getId() != null) {
+            comentarioJpaEntity.setTarea(new TareaJpaEntity(comentario.getTarea().getId()));
+        }
 
         return comentarioJpaEntity;
     }
@@ -57,45 +63,24 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
     private Comentario toDomain(ComentarioJpaEntity comentarioJpaEntity) {
         Comentario comentario = new Comentario();
 
-        Usuario usuario = obtainUsuario(comentarioJpaEntity.getAutor());
-        Tarea tarea = obtainTarea(comentario.getTarea());
-
         comentario.setId(comentarioJpaEntity.getId());
-        comentario.setFechaCreacion(comentarioJpaEntity.getFechaCreacion());
         comentario.setMensaje(comentarioJpaEntity.getMensaje());
-        comentario.setUsuarioCreador(usuario);
-        comentario.setTarea(tarea);
+        comentario.setFecha(comentarioJpaEntity.getFecha());
+
+        if (comentarioJpaEntity.getAutor() != null) {
+            Usuario usuario = new Usuario();
+            usuario.setId(comentarioJpaEntity.getAutor().getId());
+            usuario.setNombre(comentarioJpaEntity.getAutor().getNombre());
+            usuario.setAvatarUrl(comentarioJpaEntity.getAutor().getAvatarUrl());
+            comentario.setAutor(usuario);
+        }
+
+        if (comentarioJpaEntity.getTarea() != null) {
+            Tarea tarea = new Tarea();
+            tarea.setId(comentarioJpaEntity.getTarea().getId());
+            comentario.setTarea(tarea);
+        }
 
         return comentario;
-    }
-
-    private Tarea obtainTarea(Tarea tareaComentario) {
-        Tarea tarea = new Tarea();
-
-        tarea.setId(tareaComentario.getId());
-        tarea.setDescripcion(tareaComentario.getDescripcion());
-        tarea.setFechaCreacion(tareaComentario.getFechaCreacion());
-        tarea.setEstado(tareaComentario.getEstado());
-        tarea.setPrioridad(tareaComentario.getPrioridad());
-        tarea.setNumeroTarea(tareaComentario.getNumeroTarea());
-        tarea.setFechaLimite(tareaComentario.getFechaLimite());
-        tarea.setPorcentajeRealizado(tareaComentario.getPorcentajeRealizado());
-        tarea.setAutor(tareaComentario.getAutor());
-        tarea.setUsuarios(tareaComentario.getUsuarios());
-
-        return tarea;
-    }
-
-    private Usuario obtainUsuario(UsuarioJpaEntity autor) {
-        Usuario usuario = new Usuario();
-
-        usuario.setId(autor.getId());
-        usuario.setNombre(autor.getNombre());
-        usuario.setAvatar(autor.getAvatar());
-        usuario.setAvatar(autor.getAvatar());
-        usuario.setApellido(autor.getApellido());
-        usuario.setUsername(autor.getNombreUsuario());
-
-        return usuario;
     }
 }

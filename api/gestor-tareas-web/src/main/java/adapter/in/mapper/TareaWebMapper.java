@@ -21,14 +21,19 @@ public class TareaWebMapper {
 
     public CrearActualizarTareaCommand toCommand(ParametrosCrearTarea parametros) {
         return new CrearActualizarTareaCommand(
-                parametros.getNumeroTarea(),
+                parametros.getId(),
+                parametros.getNumero(),
+                parametros.getTitulo(),
+                parametros.getImagenUrl(),
                 parametros.getFechaLimite(),
-                parametros.getPrioridad(),
                 parametros.getEstado(),
+                parametros.getPrioridad(),
+                parametros.getCategoria(),
                 parametros.getDescripcion(),
                 parametros.getFechaCreacion(),
                 parametros.getPorcentajeRealizado(),
-                parametros.getUsuarios(),
+                parametros.getTiempoEstimado(),
+                parametros.getAsignados(),
                 parametros.getAutor()
         );
     }

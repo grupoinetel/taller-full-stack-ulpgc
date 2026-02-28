@@ -1,49 +1,61 @@
 package application.port.commands;
 
+import domain.enums.CategoriaTarea;
 import domain.enums.EstadoTarea;
-import domain.enums.Prioridad;
+import domain.enums.PrioridadTarea;
 import domain.model.Usuario;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 @Getter
 public class CrearActualizarTareaCommand {
-    String numeroTarea;
-    Date fechaLimite;
-    Prioridad prioridad;
-    EstadoTarea estado;
-    String descripcion;
-    Date fechaCreacion;
-    Integer porcentajeRealizado;
-    List<Usuario> usuarios;
-    Usuario autor;
+    private final Long id;
+    private final Integer numero;
+    private final String titulo;
+    private final String imagenUrl;
+    private final Date fechaLimite;
+    private final EstadoTarea estado;
+    private final PrioridadTarea prioridad;
+    private final CategoriaTarea categoria;
+    private final String descripcion;
+    private final Date fechaCreacion;
+    private final Integer porcentajeRealizado;
+    private final BigDecimal tiempoEstimado;
+    private final List<Usuario> asignados;
+    private final Usuario autor;
 
-    Long id;
-
-    public CrearActualizarTareaCommand(String numeroTarea, Date fechaLimite, Prioridad prioridad, EstadoTarea estado, String descripcion, Date fechaCreacion, Integer porcentajeRealizado, List<Usuario> usuarios, Usuario autor) {
-        this.numeroTarea = numeroTarea;
-        this.fechaLimite = fechaLimite;
-        this.prioridad = prioridad;
-        this.estado = estado;
-        this.descripcion = descripcion;
-        this.fechaCreacion = fechaCreacion;
-        this.porcentajeRealizado = porcentajeRealizado;
-        this.usuarios = usuarios;
-        this.autor = autor;
-    }
-
-    public CrearActualizarTareaCommand(Long id, String numeroTarea, Date fechaLimite, Prioridad prioridad, EstadoTarea estado, String descripcion, Date fechaCreacion, Integer porcentajeRealizado, List<Usuario> usuarios, Usuario autor) {
-        this.numeroTarea = numeroTarea;
-        this.fechaLimite = fechaLimite;
-        this.prioridad = prioridad;
-        this.estado = estado;
-        this.descripcion = descripcion;
-        this.fechaCreacion = fechaCreacion;
-        this.porcentajeRealizado = porcentajeRealizado;
-        this.usuarios = usuarios;
-        this.autor = autor;
+    public CrearActualizarTareaCommand(
+            Long id,
+            Integer numero,
+            String titulo,
+            String imagenUrl,
+            Date fechaLimite,
+            EstadoTarea estado,
+            PrioridadTarea prioridad,
+            CategoriaTarea categoria,
+            String descripcion,
+            Date fechaCreacion,
+            Integer porcentajeRealizado,
+            BigDecimal tiempoEstimado,
+            List<Usuario> asignados,
+            Usuario autor
+    ) {
         this.id = id;
+        this.numero = numero;
+        this.titulo = titulo;
+        this.imagenUrl = imagenUrl;
+        this.fechaLimite = fechaLimite;
+        this.estado = estado;
+        this.prioridad = prioridad;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.fechaCreacion = fechaCreacion;
+        this.porcentajeRealizado = porcentajeRealizado;
+        this.tiempoEstimado = tiempoEstimado;
+        this.asignados = asignados;
+        this.autor = autor;
     }
 }

@@ -9,9 +9,9 @@ import java.util.Date;
 @Setter
 public class Comentario {
 
-    Long id;
-    String mensaje;
-    Tarea tarea;
-    Usuario usuarioCreador;
-    Date fechaCreacion;
+    private Long id;
+    private String mensaje;
+    private Date fecha;
+    private Tarea tarea;
+    private Usuario autor;
 }

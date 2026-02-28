@@ -9,24 +9,30 @@ import java.util.Date;
 public class ComentarioJpaEntity {
 
     @Id
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-    Date fechaCreacion;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "TAREA_ID", nullable = false)
+    private TareaJpaEntity tarea;
 
-    String mensaje;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "AUTOR_ID", nullable = false)
+    private UsuarioJpaEntity autor;
 
-    @ManyToOne
-    UsuarioJpaEntity autor;
+    @Column(name = "MENSAJE", nullable = false)
+    private String mensaje;
 
-    @ManyToOne
-    TareaJpaEntity tarea;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA", nullable = false)
+    private Date fecha;
+
+    public ComentarioJpaEntity() {
+    }
 
     public ComentarioJpaEntity(Long id) {
         this.id = id;
-    }
-
-    public ComentarioJpaEntity() {
-
     }
 
     public Long getId() {
@@ -37,20 +43,12 @@ public class ComentarioJpaEntity {
         this.id = id;
     }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
+    public TareaJpaEntity getTarea() {
+        return tarea;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
+    public void setTarea(TareaJpaEntity tarea) {
+        this.tarea = tarea;
     }
 
     public UsuarioJpaEntity getAutor() {
@@ -61,11 +59,19 @@ public class ComentarioJpaEntity {
         this.autor = autor;
     }
 
-    public TareaJpaEntity getTarea() {
-        return tarea;
+    public String getMensaje() {
+        return mensaje;
     }
 
-    public void setTarea(TareaJpaEntity tarea) {
-        this.tarea = tarea;
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 }

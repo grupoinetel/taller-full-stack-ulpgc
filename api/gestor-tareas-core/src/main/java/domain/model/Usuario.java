@@ -8,16 +8,14 @@ import java.util.List;
 @Getter
 @Setter
 public class Usuario {
-    Long id;
-    String nombre;
-    String apellido;
-    String username;
-    String avatar; //TODO revisar tipo de variable
-    List<Tarea> tareas;
+    private Long id;
+    private String nombre;
+    private String avatarUrl;
+    private List<Tarea> tareas;
 
-    public Usuario(Long id, String nombreUsuario) {
+    public Usuario(Long id, String nombre) {
         this.id = id;
-        this.nombre = nombreUsuario;
+        this.nombre = nombre;
     }
 
     public Usuario() {

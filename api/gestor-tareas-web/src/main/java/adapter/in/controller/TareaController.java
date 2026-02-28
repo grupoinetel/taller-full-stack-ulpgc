@@ -8,6 +8,7 @@ import application.port.in.tarea.CrearTareaUseCase;
 import application.port.in.tarea.EliminarTareaUseCase;
 import application.port.in.tarea.ObtenerTareaUseCase;
 import domain.model.Tarea;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class TareaController {
     }
 
     @PostMapping("/")
-    public void create(@RequestBody ParametrosCrearTarea request) {
+    public void create(@Valid @RequestBody ParametrosCrearTarea request) {
         crearTareaUseCase.crearTarea(tareaWebMapper.toCommand(request));
     }
 
@@ -57,7 +58,7 @@ public class TareaController {
 
     @PutMapping("/{id}")
     ResponseEntity<TareaResponse> put(@PathVariable Long id,
-                                      @RequestBody ParametrosCrearTarea parametrosActualizarTarea) {
+                                      @Valid @RequestBody ParametrosCrearTarea parametrosActualizarTarea) {
         parametrosActualizarTarea.setId(id);
         Tarea tareaActualizada = actualizarTareaUseCase.actualizarTarea(tareaWebMapper.toCommand(parametrosActualizarTarea));
 

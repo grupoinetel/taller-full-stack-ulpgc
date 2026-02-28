@@ -11,6 +11,7 @@ import domain.model.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,104 +47,120 @@ public class TareaAdapter implements TareaPersistencePort {
     public Tarea toDomain(TareaJpaEntity tareaJpaEntity) {
         Tarea tarea = new Tarea();
 
-        //Iteramos y rellenamos los usuarios
-        List<Usuario> usuarios = obtainUsuariosDomain(tareaJpaEntity.getUsuarios());
-        tarea.setUsuarios(usuarios);
-
-        //Iteramos y rellenamos los comentarios
-        List<Comentario> comentarios = obtainComentariosDomain(tareaJpaEntity.getComentarios());
-        tarea.setComentarios(comentarios);
-
-        tareaJpaEntity.setNumTarea(Integer.valueOf(tarea.getNumeroTarea()));
-        tarea.setFechaCreacion(tareaJpaEntity.getFechaCreacion());
-        tarea.setDescripcion(tareaJpaEntity.getDescripcion());
-        tarea.setFechaLimite(tareaJpaEntity.getFechaFinalizacion());
-        tarea.setPorcentajeRealizado(tareaJpaEntity.getPorcentaje());
-        tarea.setPrioridad(tareaJpaEntity.getPrioridad());
-        tarea.setPorcentajeRealizado(tareaJpaEntity.getPorcentaje());
-        tarea.setEstado(tareaJpaEntity.getEstado());
         tarea.setId(tareaJpaEntity.getId());
+        tarea.setNumero(tareaJpaEntity.getNumero());
+        tarea.setTitulo(tareaJpaEntity.getTitulo());
+        tarea.setImagenUrl(tareaJpaEntity.getImagenUrl());
+        tarea.setDescripcion(tareaJpaEntity.getDescripcion());
+        tarea.setFechaCreacion(tareaJpaEntity.getFechaCreacion());
+        tarea.setFechaLimite(tareaJpaEntity.getFechaLimite());
+        tarea.setEstado(tareaJpaEntity.getEstado());
+        tarea.setPrioridad(tareaJpaEntity.getPrioridad());
+        tarea.setCategoria(tareaJpaEntity.getCategoria());
+        tarea.setPorcentajeRealizado(tareaJpaEntity.getPorcentajeRealizado());
+        tarea.setTiempoEstimado(tareaJpaEntity.getTiempoEstimado());
+
+        if (tareaJpaEntity.getAutor() != null) {
+            tarea.setAutor(toDomainUsuario(tareaJpaEntity.getAutor()));
+        }
+
+        tarea.setAsignados(toDomainUsuarios(tareaJpaEntity.getAsignados()));
+        tarea.setComentarios(toDomainComentarios(tareaJpaEntity.getComentarios()));
 
         return tarea;
-    }
-
-    private List<Usuario> obtainUsuariosDomain(List<UsuarioJpaEntity> usuarios) {
-        List<Usuario> listUsuarios = new ArrayList<>();
-
-        for (UsuarioJpaEntity usuario : usuarios) {
-            Usuario usuarioDomain = new Usuario();
-
-            usuarioDomain.setUsername(usuario.getNombreUsuario());
-            usuarioDomain.setId(usuario.getId());
-            usuarioDomain.setNombre(usuario.getNombre());
-            usuarioDomain.setApellido(usuario.getApellido());
-            usuarioDomain.setAvatar(usuario.getAvatar());
-
-            listUsuarios.add(usuarioDomain);
-        }
-
-        return listUsuarios;
-    }
-
-    private List<Comentario> obtainComentariosDomain(List<ComentarioJpaEntity> comentarios) {
-        List<Comentario> listComentarios = new ArrayList<>();
-
-        for (ComentarioJpaEntity comentario : comentarios) {
-            Comentario comentarioDomain = new Comentario();
-
-            comentarioDomain.setId(comentario.getId());
-            comentarioDomain.setFechaCreacion(comentario.getFechaCreacion());
-            comentarioDomain.setMensaje(comentario.getMensaje());
-            comentarioDomain.setUsuarioCreador(new Usuario(comentario.getAutor().getId(),
-                    comentario.getAutor().getNombreUsuario()));
-
-            listComentarios.add(comentarioDomain);
-        }
-
-        return listComentarios;
     }
 
     public TareaJpaEntity toJpaEntity(Tarea tarea) {
         TareaJpaEntity tareaJpaEntity = new TareaJpaEntity(tarea.getId());
 
-        //Iteramos y rellenamos los usuarios
-        List<UsuarioJpaEntity> usuarios = obtainUsuariosJPA(tarea.getUsuarios());
-        tareaJpaEntity.setUsuarios(usuarios);
-
-        //Iteramos y rellenamos los comentarios
-        List<ComentarioJpaEntity> comentarios = obtainComentariosJPA(tarea.getComentarios());
-        tareaJpaEntity.setComentarios(comentarios);
-
-        tareaJpaEntity.setNumTarea(Integer.valueOf(tarea.getNumeroTarea()));
-        tareaJpaEntity.setFechaCreacion(tarea.getFechaCreacion());
+        tareaJpaEntity.setNumero(tarea.getNumero());
+        tareaJpaEntity.setTitulo(tarea.getTitulo());
+        tareaJpaEntity.setImagenUrl(tarea.getImagenUrl());
         tareaJpaEntity.setDescripcion(tarea.getDescripcion());
-        tareaJpaEntity.setFechaFinalizacion(tarea.getFechaLimite());
-        tareaJpaEntity.setPorcentaje(tarea.getPorcentajeRealizado());
-        tareaJpaEntity.setPrioridad(tarea.getPrioridad());
+        tareaJpaEntity.setFechaCreacion(tarea.getFechaCreacion());
+        tareaJpaEntity.setFechaLimite(tarea.getFechaLimite());
         tareaJpaEntity.setEstado(tarea.getEstado());
-        tareaJpaEntity.setAutor(new UsuarioJpaEntity(tarea.getAutor().getId()));
-        tareaJpaEntity.setId(tarea.getId());
+        tareaJpaEntity.setPrioridad(tarea.getPrioridad());
+        tareaJpaEntity.setCategoria(tarea.getCategoria());
+        tareaJpaEntity.setPorcentajeRealizado(tarea.getPorcentajeRealizado());
+        tareaJpaEntity.setTiempoEstimado(tarea.getTiempoEstimado());
+
+        if (tarea.getAutor() != null && tarea.getAutor().getId() != null) {
+            tareaJpaEntity.setAutor(new UsuarioJpaEntity(tarea.getAutor().getId()));
+        }
+
+        tareaJpaEntity.setAsignados(toJpaUsuarios(tarea.getAsignados()));
+        tareaJpaEntity.setComentarios(toJpaComentarios(tarea.getComentarios()));
 
         return tareaJpaEntity;
     }
 
-    private List<ComentarioJpaEntity> obtainComentariosJPA(List<Comentario> comentarios) {
-        List<ComentarioJpaEntity> listComentarios = new ArrayList<>();
-
-        for (Comentario comentario : comentarios) {
-            listComentarios.add(new ComentarioJpaEntity(comentario.getId()));
-        }
-
-        return listComentarios;
+    private Usuario toDomainUsuario(UsuarioJpaEntity usuarioJpaEntity) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioJpaEntity.getId());
+        usuario.setNombre(usuarioJpaEntity.getNombre());
+        usuario.setAvatarUrl(usuarioJpaEntity.getAvatarUrl());
+        return usuario;
     }
 
-    private List<UsuarioJpaEntity> obtainUsuariosJPA(List<Usuario> usuarios) {
-        List<UsuarioJpaEntity> listUsuarios = new ArrayList<>();
-
-        for (Usuario usuario : usuarios) {
-            listUsuarios.add(new UsuarioJpaEntity(usuario.getId()));
+    private List<Usuario> toDomainUsuarios(List<UsuarioJpaEntity> usuariosJpa) {
+        if (usuariosJpa == null) {
+            return Collections.emptyList();
         }
 
-        return listUsuarios;
+        List<Usuario> usuarios = new ArrayList<>();
+        for (UsuarioJpaEntity usuarioJpa : usuariosJpa) {
+            usuarios.add(toDomainUsuario(usuarioJpa));
+        }
+        return usuarios;
+    }
+
+    private List<Comentario> toDomainComentarios(List<ComentarioJpaEntity> comentariosJpa) {
+        if (comentariosJpa == null) {
+            return Collections.emptyList();
+        }
+
+        List<Comentario> comentarios = new ArrayList<>();
+        for (ComentarioJpaEntity comentarioJpa : comentariosJpa) {
+            Comentario comentario = new Comentario();
+            comentario.setId(comentarioJpa.getId());
+            comentario.setMensaje(comentarioJpa.getMensaje());
+            comentario.setFecha(comentarioJpa.getFecha());
+
+            if (comentarioJpa.getAutor() != null) {
+                comentario.setAutor(toDomainUsuario(comentarioJpa.getAutor()));
+            }
+
+            comentarios.add(comentario);
+        }
+        return comentarios;
+    }
+
+    private List<UsuarioJpaEntity> toJpaUsuarios(List<Usuario> usuarios) {
+        if (usuarios == null) {
+            return Collections.emptyList();
+        }
+
+        List<UsuarioJpaEntity> usuariosJpa = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            if (usuario != null && usuario.getId() != null) {
+                usuariosJpa.add(new UsuarioJpaEntity(usuario.getId()));
+            }
+        }
+        return usuariosJpa;
+    }
+
+    private List<ComentarioJpaEntity> toJpaComentarios(List<Comentario> comentarios) {
+        if (comentarios == null) {
+            return Collections.emptyList();
+        }
+
+        List<ComentarioJpaEntity> comentariosJpa = new ArrayList<>();
+        for (Comentario comentario : comentarios) {
+            if (comentario != null && comentario.getId() != null) {
+                comentariosJpa.add(new ComentarioJpaEntity(comentario.getId()));
+            }
+        }
+        return comentariosJpa;
     }
 }

@@ -1,6 +1,6 @@
 package domain.enums;
 
-public enum Prioridad {
+public enum PrioridadTarea {
     BAJA,
     MEDIA,
     ALTA,

@@ -2,6 +2,7 @@ package adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -9,25 +10,24 @@ import java.util.List;
 public class UsuarioJpaEntity {
 
     @Id
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-    String nombre;
+    @Column(name = "NOMBRE", nullable = false, length = 200)
+    private String nombre;
 
-    String apellido;
+    @Column(name = "AVATAR_URL")
+    private String avatarUrl;
 
-    String nombreUsuario;
+    @ManyToMany(mappedBy = "asignados")
+    private List<TareaJpaEntity> tareas = new ArrayList<>();
 
-    String avatar;
-
-    @ManyToMany(mappedBy = "usuarios")
-    List<TareaJpaEntity> tareas;
+    public UsuarioJpaEntity() {
+    }
 
     public UsuarioJpaEntity(Long id) {
         this.id = id;
-    }
-
-    public UsuarioJpaEntity() {
-
     }
 
     public Long getId() {
@@ -46,28 +46,12 @@ public class UsuarioJpaEntity {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public List<TareaJpaEntity> getTareas() {
