@@ -1,16 +1,134 @@
-<div id="modalTarea" class="modal" tabindex="-1">
-  <div class="modal-dialog">
+<div id="modalTarea" #modalTarea class="modal" tabindex="-1" aria-labelledby="modalTareaTitulo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Tarea</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
+      @if (tarea) {
+        <div class="modal-header">
+          <div class="header-content">
+            <span class="numero-tarea">#{{ tarea.numero }}</span>
+            <h4 id="modalTareaTitulo" class="modal-title">{{ tarea.titulo }}</h4>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-12 col-lg-7">
+              @if (tarea.imagenUrl) {
+                <img class="imagen-tarea mb-2" [src]="tarea.imagenUrl" alt="Imagen de la tarea">
+              }
+
+              <div class="info-card">
+                <h5><i class="bi bi-card-text"></i> Descripción</h5>
+                <p class="descripcion">{{ tarea.descripcion }}</p>
+              </div>
+
+              <div class="info-card">
+                <h5><i class="bi bi-chat-left-text"></i> Comentarios</h5>
+                @if (tarea.comentarios.length) {
+                  <div class="lista-comentarios">
+                    @for (comentario of tarea.comentarios; track comentario.id) {
+                      <div class="comentario-item">
+                        <div class="autor-comentario">
+                          <div class="d-flex flex-row align-items-center gap-2">
+                            <app-avatar [usuario]="comentario.autor"></app-avatar>
+                             {{ comentario.autor.nombre }}
+                          </div>
+                          <span class="fecha-comentario">{{ comentario.fecha }}</span>
+                        </div>
+                        <p>{{ comentario.mensaje }}</p>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <p class="texto-vacio">Sin comentarios todavía.</p>
+                }
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-5">
+              <div class="info-card card-detalles-tarea">
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-check2-circle"></i> Estado</div>
+                  <div class="valor-detalle-tarea">
+                    <span [class]="'badge text-bg-' + ESTADO_TAREA_COLORES[tarea.estado]">
+                      {{ ESTADO_TAREA_LABELS[tarea.estado] }}
+                    </span>
+                  </div>
+                </div>
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-exclamation-triangle"></i> Prioridad</div>
+                  <div class="valor-detalle-tarea">
+                    <span [class]="'badge text-bg-' + PRIORIDAD_TAREA_COLORES[tarea.prioridad]">
+                      {{ PRIORIDAD_TAREA_LABELS[tarea.prioridad] }}
+                    </span>
+                  </div>
+                </div>
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-calendar-event"></i> Fecha límite</div>
+                  <div class="valor-detalle-tarea">{{ tarea.fechaLimite }}</div>
+                </div>
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-graph-up-arrow"></i> Progreso</div>
+                  <div class="progress progreso-tarea" role="progressbar" aria-label="Barra de progreso de tarea"
+                       [attr.aria-valuenow]="tarea.porcentajeRealizado" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar" [style.width.%]="tarea.porcentajeRealizado"></div>
+                    <span class="label-progreso-tarea"
+                          [ngClass]="{'label-claro-progreso-tarea': tarea.porcentajeRealizado >= 45}">
+                      {{ tarea.porcentajeRealizado }}%
+                    </span>
+                  </div>
+                </div>
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-hourglass-split"></i> Tiempo estimado</div>
+                  <div class="valor-detalle-tarea">{{ tarea.tiempoEstimado }}h</div>
+                </div>
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-folder2-open"></i> Categoría</div>
+                  <div class="valor-detalle-tarea">
+                    <span [class]="'badge text-bg-' + CATEGORIA_TAREA_COLORES[tarea.categoria]">
+                      {{ CATEGORIA_TAREA_LABELS[tarea.categoria] }}
+                    </span>
+                  </div>
+                </div>
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-calendar-plus"></i> Fecha creación</div>
+                  <div class="valor-detalle-tarea">{{ tarea.fechaCreacion }}</div>
+                </div>
+                <div class="fila-detalle-tarea">
+                  <div class="label-detalle-tarea"><i class="bi bi-person-circle"></i> Creado por</div>
+                  <div class="d-flex flex-row align-items-center gap-2">
+                    <app-avatar [usuario]="tarea.autor"></app-avatar>
+                    <div class="valor-detalle-tarea">{{ tarea.autor.nombre }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h5><i class="bi bi-people"></i> Asignados</h5>
+                @if (tarea.asignados.length) {
+                  <div class="lista-asignados">
+                    @for (usuario of tarea.asignados; track usuario.id) {
+                      <div class="asignado-item">
+                        <app-avatar [usuario]="usuario"></app-avatar>
+                        <span>{{ usuario.nombre }}</span>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <p class="texto-vacio">No hay personas asignadas.</p>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      }
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

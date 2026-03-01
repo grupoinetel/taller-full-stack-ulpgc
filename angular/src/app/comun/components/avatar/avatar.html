@@ -1,0 +1,5 @@
+@if (usuario?.avatarUrl) {
+  <img [src]="usuario?.avatarUrl" alt="Avatar de {{ usuario?.nombre }}" class="avatar">
+} @else {
+  <div class="avatar avatar-fallback">{{ getIniciales(usuario?.nombre) }}</div>
+}

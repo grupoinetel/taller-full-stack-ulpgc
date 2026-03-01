@@ -1,0 +1,17 @@
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #cbd5e1;
+}
+
+.avatar-fallback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  background: #dbeafe;
+}
