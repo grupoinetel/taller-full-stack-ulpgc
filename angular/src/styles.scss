@@ -2,16 +2,24 @@
 
 :root {
   color-scheme: light;
+  --bs-body-font-family: "Roboto", sans-serif;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 18px;
+}
+
 body {
   padding: 50px 50px;
   background-color: var(--bs-body-bg) !important;
   color: #1f2a3a;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 app-root {
@@ -19,10 +27,9 @@ app-root {
   min-height: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-family: Roboto, serif;
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
