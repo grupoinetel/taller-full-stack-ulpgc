@@ -1,17 +1,17 @@
 package application.service;
 
 import application.port.in.usurio.ObtenerUsuarioUseCase;
-import application.port.out.UsuarioInterfacePort;
+import application.port.out.UsuarioPersistencePort;
 import domain.model.Usuario;
 
 import java.util.List;
 
 public class UsuarioService implements ObtenerUsuarioUseCase {
 
-    private final UsuarioInterfacePort usuarioInterfacePort;
+    private final UsuarioPersistencePort usuarioPersistencePort;
 
-    public UsuarioService(UsuarioInterfacePort usuarioInterfacePort) {
-        this.usuarioInterfacePort = usuarioInterfacePort;
+    public UsuarioService(UsuarioPersistencePort usuarioPersistencePort) {
+        this.usuarioPersistencePort = usuarioPersistencePort;
     }
 
     @Override

@@ -1,7 +1,7 @@
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /home/app
 
-COPY .mvn/ .mvn/
+COPY ../.mvn .mvn/
 COPY mvnw pom.xml ./
 COPY gestor-tareas-core/pom.xml gestor-tareas-core/pom.xml
 COPY gestor-tareas-web/pom.xml gestor-tareas-web/pom.xml
