@@ -30,11 +30,11 @@ public class ComentarioController {
 
     @GetMapping("/comentarios/tarea/{id}")
     public ResponseEntity<List<ComentarioResponse>> getComentariosDeTarea() {
-
+        return null;
     }
 
     @PostMapping("/")
     public void create(@Valid @RequestBody ParametrosCrearTarea request) {
-        crearComentarioUseCase.crearComentario(comentarioMapper.toCommand(request));
+        //crearComentarioUseCase.crearComentario(comentarioMapper.toCommand(request));
     }
 }

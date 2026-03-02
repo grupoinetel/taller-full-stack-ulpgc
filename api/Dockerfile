@@ -1,14 +1,14 @@
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /home/app
 
-COPY ../.mvn .mvn/
-COPY mvnw pom.xml ./
-COPY gestor-tareas-core/pom.xml gestor-tareas-core/pom.xml
-COPY gestor-tareas-web/pom.xml gestor-tareas-web/pom.xml
+COPY .mvn .mvn/
+COPY mvnw api/pom.xml ./
+COPY api/gestor-tareas-core/pom.xml gestor-tareas-core/pom.xml
+COPY api/gestor-tareas-web/pom.xml gestor-tareas-web/pom.xml
 
-RUN chmod +x mvnw
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
 
-COPY . .
+COPY api/ .
 RUN ./mvnw -pl gestor-tareas-web -am clean package -DskipTests
 
 FROM tomcat:10.1-jdk21-temurin

@@ -24,7 +24,8 @@ services:
 
   gestortareas_back:
     build:
-      context: ./api
+      context: .
+      dockerfile: api/Dockerfile
     image: gestortareas_back
     container_name: gestortareas_back
     depends_on:
