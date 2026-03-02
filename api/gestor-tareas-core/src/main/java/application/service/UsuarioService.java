@@ -1,6 +1,6 @@
 package application.service;
 
-import application.port.in.usurio.ObtenerUsuarioUseCase;
+import application.port.in.usuario.ObtenerUsuarioUseCase;
 import application.port.out.UsuarioPersistencePort;
 import domain.model.Usuario;
 

@@ -42,6 +42,11 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
         comentarioSpringRepository.deleteById(id);
     }
 
+    @Override
+    public List<Comentario> findByTareaId(Long id) {
+        return comentarioSpringRepository.findByTareaId(id).stream().map(this::toDomain).toList();
+    }
+
     private ComentarioJpaEntity toJpaEntity(Comentario comentario) {
         ComentarioJpaEntity comentarioJpaEntity = new ComentarioJpaEntity();
 
@@ -68,16 +73,14 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
         comentario.setFecha(comentarioJpaEntity.getFecha());
 
         if (comentarioJpaEntity.getAutor() != null) {
-            Usuario usuario = new Usuario();
-            usuario.setId(comentarioJpaEntity.getAutor().getId());
+            Usuario usuario = new Usuario(comentarioJpaEntity.getAutor().getId());
             usuario.setNombre(comentarioJpaEntity.getAutor().getNombre());
             usuario.setAvatarUrl(comentarioJpaEntity.getAutor().getAvatarUrl());
             comentario.setAutor(usuario);
         }
 
         if (comentarioJpaEntity.getTarea() != null) {
-            Tarea tarea = new Tarea();
-            tarea.setId(comentarioJpaEntity.getTarea().getId());
+            Tarea tarea = new Tarea(comentarioJpaEntity.getTarea().getId());
             comentario.setTarea(tarea);
         }
 

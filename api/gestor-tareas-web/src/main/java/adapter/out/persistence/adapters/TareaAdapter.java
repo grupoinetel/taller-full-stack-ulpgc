@@ -45,9 +45,8 @@ public class TareaAdapter implements TareaPersistencePort {
     }
 
     public Tarea toDomain(TareaJpaEntity tareaJpaEntity) {
-        Tarea tarea = new Tarea();
+        Tarea tarea = new Tarea(tareaJpaEntity.getId());
 
-        tarea.setId(tareaJpaEntity.getId());
         tarea.setNumero(tareaJpaEntity.getNumero());
         tarea.setTitulo(tareaJpaEntity.getTitulo());
         tarea.setImagenUrl(tareaJpaEntity.getImagenUrl());
@@ -96,8 +95,7 @@ public class TareaAdapter implements TareaPersistencePort {
     }
 
     private Usuario toDomainUsuario(UsuarioJpaEntity usuarioJpaEntity) {
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioJpaEntity.getId());
+        Usuario usuario = new Usuario(usuarioJpaEntity.getId());
         usuario.setNombre(usuarioJpaEntity.getNombre());
         usuario.setAvatarUrl(usuarioJpaEntity.getAvatarUrl());
         return usuario;

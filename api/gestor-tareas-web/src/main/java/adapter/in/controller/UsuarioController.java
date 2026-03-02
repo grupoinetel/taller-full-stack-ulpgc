@@ -2,7 +2,7 @@ package adapter.in.controller;
 
 import adapter.in.dto.UsuarioResponse;
 import adapter.in.mapper.UsuarioMapper;
-import application.port.in.usurio.ObtenerUsuarioUseCase;
+import application.port.in.usuario.ObtenerUsuarioUseCase;
 import domain.model.Usuario;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

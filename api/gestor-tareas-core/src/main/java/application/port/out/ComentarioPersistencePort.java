@@ -14,4 +14,6 @@ public interface ComentarioPersistencePort {
     List<Comentario> findAll();
 
     void delete(Long id);
+
+    List<Comentario> findByTareaId(Long id);
 }

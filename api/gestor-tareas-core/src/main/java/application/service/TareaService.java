@@ -45,7 +45,7 @@ public class TareaService implements
     }
 
     public Tarea crearTarea(CrearActualizarTareaCommand tarea) {
-        Tarea tareaDomain = new Tarea();
+        Tarea tareaDomain = new Tarea(tarea.getId());
 
         tareaDomain.setNumero(tarea.getNumero());
         tareaDomain.setTitulo(tarea.getTitulo());

@@ -1,4 +1,4 @@
-package application.port.in.usurio;
+package application.port.in.usuario;
 
 import domain.model.Usuario;
 

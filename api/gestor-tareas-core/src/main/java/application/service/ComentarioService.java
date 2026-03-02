@@ -4,15 +4,19 @@ import application.port.commands.CrearComentarioCommand;
 import application.port.in.comentario.ActualizarComentarioUseCase;
 import application.port.in.comentario.CrearComentarioUseCase;
 import application.port.in.comentario.EliminarComentarioUseCase;
+import application.port.in.comentario.ObtenerComentarioUseCase;
 import application.port.out.ComentarioPersistencePort;
 import domain.model.Comentario;
 import domain.model.Tarea;
 import domain.model.Usuario;
 import exception.ComentarioNotFoundException;
 
+import java.util.List;
+
 public class ComentarioService implements
         ActualizarComentarioUseCase,
         CrearComentarioUseCase,
+        ObtenerComentarioUseCase,
         EliminarComentarioUseCase {
 
     private final ComentarioPersistencePort comentarioPersistencePort;
@@ -50,5 +54,10 @@ public class ComentarioService implements
 
     private Comentario obtenerComentario(Long id) {
         return comentarioPersistencePort.findById(id).orElseThrow(ComentarioNotFoundException::new);
+    }
+
+    @Override
+    public List<Comentario> obtenerComentariosDeTarea(Long idTarea) {
+        return comentarioPersistencePort.findByTareaId(idTarea);
     }
 }
