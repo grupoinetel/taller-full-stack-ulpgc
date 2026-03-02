@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between" id="encabezado">
   <h1>Tablero de tareas</h1>
-  <button class="btn btn-primary fs-5" data-bs-toggle="modal" data-bs-target="#modalTarea">
+  <button class="btn btn-primary fs-5" (click)="crearTarea()">
     <i class="bi bi-plus-lg"></i>
     Crear tarea
   </button>
@@ -26,7 +26,7 @@
             <h5 class="card-title">{{tarea.numero}}. {{ tarea.titulo }}</h5>
             <div>
               <i class="bi bi-calendar-check mx-2"></i>
-              {{ tarea.fechaLimite }}
+              {{ formatearFechaLimite(tarea.fechaLimite) }}
             </div>
             <span
               class="badge text-bg-{{PRIORIDAD_TAREA_COLORES[tarea.prioridad]}} mt-2">
@@ -39,4 +39,11 @@
   }
 </div>
 
-<app-modal-tarea #modalTarea></app-modal-tarea>
+<app-modal-tarea
+  #modalTarea
+  [usuarios]="USUARIOS_MOCK"
+  (guardarEvent)="guardarTarea($event)"
+  (agregarComentarioEvent)="agregarComentario($event)"
+  (solicitarEdicion)="editarDesdeDetalle($event)"
+  (eliminarEvent)="eliminarTarea($event)">
+</app-modal-tarea>

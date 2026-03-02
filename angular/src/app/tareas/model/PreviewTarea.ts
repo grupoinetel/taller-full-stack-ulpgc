@@ -6,7 +6,7 @@ export interface PreviewTarea {
   numero: number;
   titulo: string;
   imagenUrl?: string;
-  fechaLimite: string;
+  fechaLimite: string | null;
   estado: EstadoTarea;
   prioridad: PrioridadTarea;
 }
