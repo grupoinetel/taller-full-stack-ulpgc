@@ -1,10 +1,13 @@
 package application.service;
 
+import application.port.commands.CrearComentarioCommand;
 import application.port.in.comentario.ActualizarComentarioUseCase;
 import application.port.in.comentario.CrearComentarioUseCase;
 import application.port.in.comentario.EliminarComentarioUseCase;
 import application.port.out.ComentarioPersistencePort;
 import domain.model.Comentario;
+import domain.model.Tarea;
+import domain.model.Usuario;
 import exception.ComentarioNotFoundException;
 
 public class ComentarioService implements
@@ -30,8 +33,15 @@ public class ComentarioService implements
         return comentarioPersistencePort.save(comentario);
     }
 
-    public Comentario crearComentario(Comentario comentario) {
-        return comentarioPersistencePort.save(comentario);
+    public Comentario crearComentario(CrearComentarioCommand comentario) {
+        Comentario comentarioDomain = new Comentario();
+
+        comentarioDomain.setTarea(new Tarea(comentario.getIdTarea()));
+        comentarioDomain.setMensaje(comentario.getContenido());
+        comentarioDomain.setAutor(new Usuario(comentario.getIdAutor()));
+        comentarioDomain.setFecha(comentario.getFecha());
+
+        return comentarioPersistencePort.save(comentarioDomain);
     }
 
     public void eliminarComentario(Long id) {

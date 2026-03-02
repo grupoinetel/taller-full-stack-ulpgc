@@ -1,7 +1,7 @@
 package adapter.in.controller;
 
 import adapter.in.dto.ComentarioResponse;
-import adapter.in.dto.ParametrosCrearTarea;
+import adapter.in.dto.ParametrosCrearComentario;
 import adapter.in.mapper.ComentarioMapper;
 import application.port.in.comentario.ActualizarComentarioUseCase;
 import application.port.in.comentario.CrearComentarioUseCase;
@@ -33,8 +33,13 @@ public class ComentarioController {
         return null;
     }
 
-    @PostMapping("/")
-    public void create(@Valid @RequestBody ParametrosCrearTarea request) {
-        //crearComentarioUseCase.crearComentario(comentarioMapper.toCommand(request));
+    @PostMapping("/{id}")
+    public void create(@PathVariable Long id, @Valid @RequestBody ParametrosCrearComentario request) {
+        crearComentarioUseCase.crearComentario(comentarioMapper.toCommand(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        eliminarComentarioUseCase.eliminarComentario(id);
     }
 }

@@ -18,6 +18,7 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public Usuario() {
+    public Usuario(Long id) {
+        this.id = id;
     }
 }

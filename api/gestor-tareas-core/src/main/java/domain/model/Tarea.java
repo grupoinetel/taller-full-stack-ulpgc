@@ -28,4 +28,8 @@ public class Tarea {
     private Usuario autor;
     private List<Usuario> asignados;
     private List<Comentario> comentarios;
+
+    public Tarea(Long idTarea) {
+        this.id = idTarea;
+    }
 }
