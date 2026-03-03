@@ -50,14 +50,14 @@ public class TareaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TareaResponse> get(@PathVariable Long id) {
+    public ResponseEntity<TareaResponse> get(@PathVariable("id") Long id) {
         Tarea tarea = obtenerTareaUseCase.obtenerTarea(id);
 
         return ResponseEntity.ok(this.tareaWebMapper.toResponse(tarea));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<TareaResponse> put(@PathVariable Long id,
+    ResponseEntity<TareaResponse> put(@PathVariable("id") Long id,
                                       @Valid @RequestBody ParametrosCrearTarea parametrosActualizarTarea) {
         parametrosActualizarTarea.setId(id);
         Tarea tareaActualizada = actualizarTareaUseCase.actualizarTarea(tareaWebMapper.toCommand(parametrosActualizarTarea));
@@ -66,7 +66,7 @@ public class TareaController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable("id") Long id) {
         eliminarTareaUseCase.eliminarTarea(id); //TODO PA DECIR UN OKAY O ALGO
     }
 }

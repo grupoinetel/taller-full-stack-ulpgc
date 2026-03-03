@@ -32,6 +32,7 @@ services:
       - gestortareas_bdd
     ports:
       - "${HTTP_PORT:-8080}:8080"
+      - "5005:5005"
     volumes:
       - gestortareas_back_tmp_vol:/tmp
     networks:

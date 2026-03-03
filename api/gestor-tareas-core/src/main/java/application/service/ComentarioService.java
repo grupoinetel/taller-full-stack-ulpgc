@@ -60,4 +60,9 @@ public class ComentarioService implements
     public List<Comentario> obtenerComentariosDeTarea(Long idTarea) {
         return comentarioPersistencePort.findByTareaId(idTarea);
     }
+
+    @Override
+    public List<Comentario> consultarComentarios(List<Object> filtros) {
+        return comentarioPersistencePort.findAll();
+    }
 }

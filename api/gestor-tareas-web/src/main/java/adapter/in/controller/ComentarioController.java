@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,20 +33,27 @@ public class ComentarioController {
         this.comentarioMapper = comentarioMapper;
     }
 
-    @GetMapping("/comentarios/tarea/{id}")
-    public ResponseEntity<List<ComentarioResponse>> getComentariosDeTarea(@PathVariable Long id) {
+    @GetMapping("/tarea/{id}")
+    public ResponseEntity<List<ComentarioResponse>> getComentariosDeTarea(@PathVariable("id") Long id) {
         List<Comentario> comentarios = obtenerComentarioUseCase.obtenerComentariosDeTarea(id);
 
         return ResponseEntity.ok(comentarioMapper.toComentarioResponseList(comentarios));
     }
 
+    @GetMapping
+    public ResponseEntity<List<ComentarioResponse>> getComentarios() {
+        List<Comentario> comentarios = obtenerComentarioUseCase.consultarComentarios(new ArrayList<>());
+
+        return ResponseEntity.ok(comentarioMapper.toComentarioResponseList(comentarios));
+    }
+
     @PostMapping("/{id}")
-    public void create(@PathVariable Long id, @Valid @RequestBody ParametrosCrearComentario request) {
+    public void create(@PathVariable("id") Long id, @Valid @RequestBody ParametrosCrearComentario request) {
         crearComentarioUseCase.crearComentario(comentarioMapper.toCommand(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable("id") Long id) {
         eliminarComentarioUseCase.eliminarComentario(id);
     }
 }

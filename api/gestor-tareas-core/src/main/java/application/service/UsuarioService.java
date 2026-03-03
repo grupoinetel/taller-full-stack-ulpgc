@@ -21,6 +21,6 @@ public class UsuarioService implements ObtenerUsuarioUseCase {
 
     @Override
     public List<Usuario> consultarUsuarios(List<Object> filtros) {
-        return List.of();
+        return usuarioPersistencePort.findAll();
     }
 }

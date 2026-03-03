@@ -7,4 +7,6 @@ import java.util.List;
 public interface ObtenerComentarioUseCase {
 
     List<Comentario> obtenerComentariosDeTarea(Long idTarea);
+
+    List<Comentario> consultarComentarios(List<Object> filtros);
 }
