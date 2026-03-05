@@ -15,12 +15,7 @@ public class UsuarioService implements ObtenerUsuarioUseCase {
     }
 
     @Override
-    public Usuario obtenerUsuario(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<Usuario> consultarUsuarios(List<Object> filtros) {
+    public List<Usuario> consultarUsuarios() {
         return usuarioPersistencePort.findAll();
     }
 }

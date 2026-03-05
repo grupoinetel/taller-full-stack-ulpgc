@@ -6,7 +6,5 @@ import java.util.List;
 
 public interface ObtenerUsuarioUseCase {
 
-    Usuario obtenerUsuario(Long id);
-
-    List<Usuario> consultarUsuarios(List<Object> filtros);
+    List<Usuario> consultarUsuarios();
 }

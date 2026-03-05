@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UsuarioAdapter implements UsuarioPersistencePort {
@@ -29,7 +30,7 @@ public class UsuarioAdapter implements UsuarioPersistencePort {
 
     @Override
     public List<Usuario> findAll() {
-        return this.usuarioSpringRepository.findAll().stream().map(this::toDomain).toList();
+        return this.usuarioSpringRepository.findAll().stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     private Usuario toDomain(UsuarioJpaEntity usuarioJpaEntity) {

@@ -8,5 +8,5 @@ public interface ObtenerComentarioUseCase {
 
     List<Comentario> obtenerComentariosDeTarea(Long idTarea);
 
-    List<Comentario> consultarComentarios(List<Object> filtros);
+    List<Comentario> consultarComentarios();
 }

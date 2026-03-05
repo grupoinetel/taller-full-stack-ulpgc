@@ -8,5 +8,5 @@ public interface ObtenerTareaUseCase {
 
     Tarea obtenerTarea(Long id);
 
-    List<Tarea> consultarTareas(List<Object> filtros); //TODO ACTUALZIAR CON PARAMETROS
+    List<Tarea> consultarTareas();
 }

@@ -62,7 +62,7 @@ public class ComentarioService implements
     }
 
     @Override
-    public List<Comentario> consultarComentarios(List<Object> filtros) {
+    public List<Comentario> consultarComentarios() {
         return comentarioPersistencePort.findAll();
     }
 }

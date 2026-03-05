@@ -7,6 +7,7 @@ import domain.model.Tarea;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TareaWebMapper {
@@ -16,7 +17,7 @@ public class TareaWebMapper {
     }
 
     public List<TareaResponse> toResponseList(List<Tarea> tareas) {
-        return tareas.stream().map(this::toResponse).toList();
+        return tareas.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public CrearActualizarTareaCommand toCommand(ParametrosCrearTarea parametros) {

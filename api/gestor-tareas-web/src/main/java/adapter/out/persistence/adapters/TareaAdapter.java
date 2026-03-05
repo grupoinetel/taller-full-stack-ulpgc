@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class TareaAdapter implements TareaPersistencePort {
@@ -36,7 +37,7 @@ public class TareaAdapter implements TareaPersistencePort {
 
     @Override
     public List<Tarea> findAll() {
-        return tareaSpringRepository.findAll().stream().map(this::toDomain).toList();
+        return tareaSpringRepository.findAll().stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     @Override

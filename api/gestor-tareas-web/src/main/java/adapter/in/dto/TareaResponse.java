@@ -5,9 +5,12 @@ import domain.enums.EstadoTarea;
 import domain.enums.PrioridadTarea;
 import domain.model.Tarea;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class TareaResponse {
@@ -25,6 +28,13 @@ public class TareaResponse {
     private final Integer porcentajeRealizado;
     private final BigDecimal tiempoEstimado;
 
+    @Setter
+    private List<ComentarioResponse> comentarios;
+    @Setter
+    private List<UsuarioResponse> asignados;
+    @Setter
+    private UsuarioResponse autor;
+
     public TareaResponse(Tarea tarea) {
         this.id = tarea.getId();
         this.numero = tarea.getNumero();
@@ -38,5 +48,13 @@ public class TareaResponse {
         this.fechaLimite = tarea.getFechaLimite();
         this.porcentajeRealizado = tarea.getPorcentajeRealizado();
         this.tiempoEstimado = tarea.getTiempoEstimado();
+
+        this.autor = new UsuarioResponse(tarea.getAutor());
+
+        this.asignados = tarea.getAsignados().stream().map(UsuarioResponse::new).collect(Collectors.toList());
+        tarea.getAsignados().forEach(usuario -> this.asignados.add(new UsuarioResponse(usuario)));
+
+        this.comentarios = tarea.getComentarios().stream().map(ComentarioResponse::new).collect(Collectors.toList());
+        tarea.getComentarios().forEach(comentario -> this.comentarios.add(new ComentarioResponse(comentario)));
     }
 }

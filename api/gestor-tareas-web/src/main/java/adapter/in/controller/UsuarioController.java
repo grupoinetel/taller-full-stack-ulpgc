@@ -1,7 +1,7 @@
 package adapter.in.controller;
 
 import adapter.in.dto.UsuarioResponse;
-import adapter.in.mapper.UsuarioMapper;
+import adapter.in.mapper.UsuarioWebMapper;
 import application.port.in.usuario.ObtenerUsuarioUseCase;
 import domain.model.Usuario;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,17 +16,17 @@ import java.util.List;
 public class UsuarioController {
 
     private final ObtenerUsuarioUseCase obtenerUsuarioUseCase;
-    private final UsuarioMapper usuarioMapper;
+    private final UsuarioWebMapper usuarioWebMapper;
 
-    public UsuarioController(ObtenerUsuarioUseCase obtenerUsuarioUseCase, UsuarioMapper usuarioMapper) {
+    public UsuarioController(ObtenerUsuarioUseCase obtenerUsuarioUseCase, UsuarioWebMapper usuarioWebMapper) {
         this.obtenerUsuarioUseCase = obtenerUsuarioUseCase;
-        this.usuarioMapper = usuarioMapper;
+        this.usuarioWebMapper = usuarioWebMapper;
     }
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> getAll() {
-        List<Usuario> usuarios = obtenerUsuarioUseCase.consultarUsuarios(new ArrayList<>());
+        List<Usuario> usuarios = obtenerUsuarioUseCase.consultarUsuarios();
 
-        return ResponseEntity.ok(usuarioMapper.toResponseList(usuarios));
+        return ResponseEntity.ok(usuarioWebMapper.toResponseList(usuarios));
     }
 }

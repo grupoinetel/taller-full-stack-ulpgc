@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class ComentarioAdapter implements ComentarioPersistencePort {
@@ -34,7 +35,7 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
 
     @Override
     public List<Comentario> findAll() {
-        return comentarioSpringRepository.findAll().stream().map(this::toDomain).toList();
+        return comentarioSpringRepository.findAll().stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     @Override
@@ -44,7 +45,7 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
 
     @Override
     public List<Comentario> findByTareaId(Long id) {
-        return comentarioSpringRepository.findByTareaId(id).stream().map(this::toDomain).toList();
+        return comentarioSpringRepository.findByTareaId(id).stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     private ComentarioJpaEntity toJpaEntity(Comentario comentario) {

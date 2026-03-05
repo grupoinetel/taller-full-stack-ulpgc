@@ -72,7 +72,7 @@ public class TareaService implements
         return tareaPersistencePort.findById(id).orElseThrow(TareaNotFoundException::new);
     }
 
-    public List<Tarea> consultarTareas(List<Object> filtros) {
+    public List<Tarea> consultarTareas() {
         return tareaPersistencePort.findAll();
     }
 }
