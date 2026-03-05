@@ -1,0 +1,132 @@
+<form [formGroup]="formularioTarea" class="row needs-validation" novalidate (ngSubmit)="guardarFormulario()">
+  <div class="col-12 fila-formulario">
+    <label class="form-label fw-bold" for="tituloTarea">Título</label>
+    <input id="tituloTarea" type="text" class="form-control"
+           [ngClass]="{'is-invalid': formularioTarea.get('titulo')?.invalid && formularioTarea.get('titulo')?.touched}"
+           placeholder="Título de la tarea"
+           formControlName="titulo"
+           maxlength="250">
+    @if (formularioTarea.get('titulo')?.invalid && formularioTarea.get('titulo')?.touched) {
+      <div class="invalid-feedback">El título es obligatorio.</div>
+    }
+  </div>
+  <div class="col-12 fila-formulario">
+    <label class="form-label fw-bold" for="descripcionTarea">Descripción</label>
+    <textarea id="descripcionTarea"
+              rows="3"
+              class="form-control"
+              formControlName="descripcion"
+              placeholder="Descripción de la tarea"></textarea>
+  </div>
+  <div class="col-12 col-lg-4 fila-formulario">
+    <label class="form-label fw-bold" for="fechaLimite">Fecha límite</label>
+    <input id="fechaLimite" type="datetime-local" class="form-control calendar-input" formControlName="fechaLimite">
+  </div>
+  <div class="col-12 col-lg-8 fila-formulario">
+    <label class="form-label fw-bold" for="imagenUrl">URL imagen</label>
+    <input id="imagenUrl" type="url" class="form-control" placeholder="URL a la imagen de la tarea" formControlName="imagenUrl">
+  </div>
+  <div class="col-12 col-md-4 fila-formulario">
+    <label class="form-label fw-bold" for="estadoTarea">Estado</label>
+    <select id="estadoTarea" class="form-select" formControlName="estado">
+      @for (estado of estados; track estado) {
+        <option [ngValue]="estado">{{ ESTADO_TAREA_LABELS[estado] }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-12 col-md-4 fila-formulario">
+    <label class="form-label fw-bold" for="prioridadTarea">Prioridad</label>
+    <select id="prioridadTarea" class="form-select" formControlName="prioridad">
+      @for (prioridad of prioridades; track prioridad) {
+        <option [ngValue]="prioridad">{{ PRIORIDAD_TAREA_LABELS[prioridad] }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-12 col-md-4 fila-formulario">
+    <label class="form-label fw-bold" for="categoriaTarea">Categoría</label>
+    <select id="categoriaTarea" class="form-select" formControlName="categoria">
+      <option [ngValue]="null">Sin categoría</option>
+      @for (categoria of categorias; track categoria) {
+        <option [ngValue]="categoria">{{ CATEGORIA_TAREA_LABELS[categoria] }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-12 col-md-6 fila-formulario">
+    <label class="form-label fw-bold" for="progresoTarea">Progreso (%)</label>
+    <input
+      id="progresoTarea"
+      type="number"
+      class="form-control"
+      [defaultValue]="0"
+      [ngClass]="{'is-invalid': formularioTarea.get('porcentajeRealizado')?.invalid && formularioTarea.get('porcentajeRealizado')?.touched}"
+      min="0"
+      max="100"
+      step="1"
+      formControlName="porcentajeRealizado">
+    @if (formularioTarea.get('porcentajeRealizado')?.invalid && formularioTarea.get('porcentajeRealizado')?.touched) {
+      <div class="invalid-feedback">El porcentaje debe estar entre 0 y 100.</div>
+    }
+  </div>
+  <div class="col-12 col-md-6 fila-formulario">
+    <label class="form-label fw-bold" for="tiempoEstimado">Tiempo estimado (horas)</label>
+    <input
+      id="tiempoEstimado"
+      type="number"
+      class="form-control"
+      [ngClass]="{'is-invalid': formularioTarea.get('tiempoEstimado')?.invalid && formularioTarea.get('tiempoEstimado')?.touched}"
+      min="0"
+      max="99999.99"
+      [defaultValue]="0"
+      step="0.5"
+      formControlName="tiempoEstimado">
+    @if (formularioTarea.get('tiempoEstimado')?.invalid && formularioTarea.get('tiempoEstimado')?.touched) {
+      <div class="invalid-feedback">Debe ser mayor o igual a 0.</div>
+    }
+  </div>
+  <div class="col-12 fila-formulario">
+    <label class="form-label fw-bold" for="asignadosTarea">Asignados</label>
+    <div class="row">
+      <div class="col-12 col-md-10">
+        <select id="asignadosTarea" class="form-select" formControlName="nuevoAsignadoId">
+          <option [ngValue]="null">Selecciona una persona</option>
+          @for (usuario of obtenerUsuariosAsignables(); track usuario.id) {
+            <option [ngValue]="usuario.id">{{ usuario.nombre }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-12 col-md-2">
+        <button
+          type="button"
+          class="btn btn-primary w-100"
+          [disabled]="!formularioTarea.get('nuevoAsignadoId')?.value"
+          (click)="agregarAsignado()">
+          Añadir
+        </button>
+      </div>
+    </div>
+
+    @if (obtenerAsignadosSeleccionados().length) {
+      <div class="asignados-seleccionados d-flex flex-column gap-1 mt-2">
+        @for (usuarioId of obtenerAsignadosSeleccionados(); track usuarioId) {
+          @if (obtenerUsuarioPorId(usuarioId); as usuarioAsignado) {
+            <div class="asignado-seleccionado-item d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-2">
+                <app-avatar [usuario]="usuarioAsignado"></app-avatar>
+                <span>{{ usuarioAsignado.nombre }}</span>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-danger"
+                aria-label="Quitar asignado"
+                (click)="quitarAsignado(usuarioAsignado.id)">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          }
+        }
+      </div>
+    } @else {
+      <div class="form-text">No hay personas asignadas.</div>
+    }
+  </div>
+</form>

@@ -4,11 +4,11 @@ import { PreviewTarea } from './PreviewTarea';
 import {CategoriaTarea} from './CategoriaTarea';
 
 export interface DetalleTarea extends PreviewTarea {
-  descripcion: string | null;
+  descripcion?: string;
   fechaCreacion: string;
   autor: Usuario;
-  categoria: CategoriaTarea | null;
-  tiempoEstimado: number | null;
+  categoria?: CategoriaTarea;
+  tiempoEstimado: number;
   porcentajeRealizado: number;
   asignados: Usuario[];
   comentarios: Comentario[];
