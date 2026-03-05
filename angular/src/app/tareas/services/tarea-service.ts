@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BaseService} from '../../comun/base-service';
+import {FormularioTarea} from '../model/FormularioTarea';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +17,12 @@ export class TareaService extends BaseService {
     return this.construirPeticionGet(`/${id}`);
   }
 
-  public crearTarea(data: any) {
+  public crearTarea(data: FormularioTarea) {
     return this.construirPeticionPost('', data);
   }
 
-  public actualizarTarea(id: number, data: any) {
-    return this.construirPeticionPut(`/${id}`, data);
+  public actualizarTarea(id: number, data: FormularioTarea) {
+    return this.construirPeticionPut(`${id}`, data);
   }
 
   public eliminarTarea(id: number) {
@@ -29,6 +30,6 @@ export class TareaService extends BaseService {
   }
 
   public obtenerComentariosDeTarea(id: number) {
-    return this.construirPeticionGet(`/comentarios/${id}`);
+    return this.construirPeticionGet(`comentarios/${id}`);
   }
 }

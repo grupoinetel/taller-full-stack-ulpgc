@@ -7,9 +7,12 @@ import application.port.in.tarea.EliminarTareaUseCase;
 import application.port.in.tarea.ObtenerTareaUseCase;
 import application.port.out.TareaPersistencePort;
 import domain.model.Tarea;
+import domain.model.Usuario;
 import exception.TareaNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TareaService implements
         CrearTareaUseCase,
@@ -27,19 +30,24 @@ public class TareaService implements
 
         Tarea tarea = obtenerTarea(nuevaTarea.getId());
 
-        tarea.setNumero(nuevaTarea.getNumero());
+        tarea.setNumero(tarea.getNumero());
         tarea.setTitulo(nuevaTarea.getTitulo());
         tarea.setImagenUrl(nuevaTarea.getImagenUrl());
         tarea.setDescripcion(nuevaTarea.getDescripcion());
         tarea.setFechaLimite(nuevaTarea.getFechaLimite());
-        tarea.setFechaCreacion(nuevaTarea.getFechaCreacion());
+        tarea.setFechaCreacion(tarea.getFechaCreacion());
         tarea.setEstado(nuevaTarea.getEstado());
         tarea.setPrioridad(nuevaTarea.getPrioridad());
         tarea.setCategoria(nuevaTarea.getCategoria());
         tarea.setPorcentajeRealizado(nuevaTarea.getPorcentajeRealizado());
         tarea.setTiempoEstimado(nuevaTarea.getTiempoEstimado());
-        tarea.setAsignados(nuevaTarea.getAsignados());
-        tarea.setAutor(nuevaTarea.getAutor());
+
+        List<Usuario> asignados = new ArrayList<>();
+
+        nuevaTarea.getAsignados().forEach(usuario -> asignados.add(new Usuario(usuario)));
+
+        tarea.setAsignados(asignados);
+        tarea.setAutor(new Usuario(tarea.getAutor().getId()));
 
         return tareaPersistencePort.save(tarea);
     }
@@ -47,19 +55,26 @@ public class TareaService implements
     public Tarea crearTarea(CrearActualizarTareaCommand tarea) {
         Tarea tareaDomain = new Tarea(tarea.getId());
 
-        tareaDomain.setNumero(tarea.getNumero());
+        Random random = new Random();
+        tareaDomain.setNumero(random.nextInt(100000));
         tareaDomain.setTitulo(tarea.getTitulo());
         tareaDomain.setImagenUrl(tarea.getImagenUrl());
         tareaDomain.setDescripcion(tarea.getDescripcion());
-        tareaDomain.setFechaCreacion(tarea.getFechaCreacion());
+        tareaDomain.setFechaCreacion(new java.util.Date());
         tareaDomain.setFechaLimite(tarea.getFechaLimite());
         tareaDomain.setEstado(tarea.getEstado());
         tareaDomain.setPrioridad(tarea.getPrioridad());
         tareaDomain.setCategoria(tarea.getCategoria());
         tareaDomain.setPorcentajeRealizado(tarea.getPorcentajeRealizado());
         tareaDomain.setTiempoEstimado(tarea.getTiempoEstimado());
-        tareaDomain.setAsignados(tarea.getAsignados());
-        tareaDomain.setAutor(tarea.getAutor());
+
+        List<Usuario> asignados = new ArrayList<>();
+
+        tarea.getAsignados().forEach(usuario -> asignados.add(new Usuario(usuario)));
+
+        tareaDomain.setAsignados(asignados);
+
+        tareaDomain.setAutor(new Usuario(tarea.getAutor()));
 
         return tareaPersistencePort.save(tareaDomain);
     }

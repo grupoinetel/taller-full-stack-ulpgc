@@ -36,9 +36,11 @@ public class TareaController {
         this.tareaWebMapper = tareaWebMapper;
     }
 
-    @PostMapping("/")
-    public void create(@Valid @RequestBody ParametrosCrearTarea request) {
-        crearTareaUseCase.crearTarea(tareaWebMapper.toCommand(request));
+    @PostMapping()
+    public ResponseEntity<TareaResponse> create(@Valid @RequestBody ParametrosCrearTarea request) {
+        Tarea tarea = crearTareaUseCase.crearTarea(tareaWebMapper.toCommand(request));
+
+        return ResponseEntity.ok(this.tareaWebMapper.toResponse(tarea));
     }
 
     @GetMapping

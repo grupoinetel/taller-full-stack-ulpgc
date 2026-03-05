@@ -6,6 +6,7 @@ import {PRIORIDAD_TAREA_COLORES} from '../../model/PrioridadTarea';
 import {ModalTarea} from '../../components/modal-tarea/modal-tarea';
 import {FormularioTarea} from '../../model/FormularioTarea';
 import {TareaService} from '../../services/tarea-service';
+import {UsuarioService} from '../../../usuarios/services/usuario-service';
 
 @Component({
   selector: 'app-tablero-tareas',
@@ -26,20 +27,7 @@ export class TableroTareasComponent implements OnInit {
   protected readonly PRIORIDAD_TAREA_COLORES = PRIORIDAD_TAREA_COLORES;
   protected readonly ESTADO_TAREA_COLORES = ESTADO_TAREA_COLORES;
 
-  readonly USUARIOS_MOCK: Usuario[] = [
-    { id: 1, nombre: 'Nahima Ortega', avatarUrl: null },
-    { id: 2, nombre: 'Luis Galindo', avatarUrl: null },
-    { id: 3, nombre: 'Juan García', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Luis' },
-    { id: 4, nombre: 'María Fernández', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Eden' },
-    { id: 5, nombre: 'María Rodríguez', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Christian' },
-    { id: 6, nombre: 'Antonio López', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Eden' },
-    { id: 7, nombre: 'David Ramírez', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Mason' },
-    { id: 8, nombre: 'Paula Pérez', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Aidan' },
-    { id: 9, nombre: 'Laura Sánchez', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Adrian' },
-    { id: 10, nombre: 'Ana Gómez', avatarUrl: 'https://api.dicebear.com/9.x/dylan/svg?seed=Vivian' },
-  ];
-
-  readonly TAREAS_MOCK: DetalleTarea[] = [];
+  usuarios: Usuario[] = [];
 
   tareasAgrupadasPorEstado: Record<EstadoTarea, DetalleTarea[]> = {
     PENDIENTE: [],
@@ -51,7 +39,8 @@ export class TableroTareasComponent implements OnInit {
   private siguienteId = 1;
   private siguienteNumero = 123001;
 
-  constructor(private _tareService: TareaService) {
+  constructor(private _tareService: TareaService,
+              private _usuarioService: UsuarioService) {
   }
 
   ngOnInit() {
@@ -67,7 +56,9 @@ export class TableroTareasComponent implements OnInit {
 
     })
 
-
+    this._usuarioService.obtenerTodosLosUsuarios().subscribe((usuarios: any[]) => {
+      this.usuarios = usuarios;
+    })
   }
 
   protected agruparTareasPorEstado(): void {
@@ -138,18 +129,12 @@ export class TableroTareasComponent implements OnInit {
         - Refrescar la vista de Angular para mostrar los nuevos datos
         - Dejaría algo de este código para que en la interfaz los datos se tengan desde que se guarda.
      */
-    const autor = this.USUARIOS_MOCK[0];
-    const tarea: DetalleTarea = {
-      ...data,
-      id: this.siguienteId++,
-      numero: this.siguienteNumero++,
-      fechaCreacion: this.formatearFechaHora(new Date()),
-      autor,
-      asignados: this.obtenerAsignados(data.asignadosIds),
-      comentarios: [],
-    };
 
-    this.tareas = [tarea, ...this.tareas];
+    data.autorId = this.usuarios[0].id;
+
+    this._tareService.crearTarea(data).subscribe((tarea: any) => {
+      this.tareas.push(tarea);
+    })
   }
 
   private actualizarTarea(idTarea: number, data: FormularioTarea): void {
@@ -157,24 +142,9 @@ export class TableroTareasComponent implements OnInit {
          - Hacer la llamada a la API para actualizar la tarea.
          - Dejaría algo del código a continuación para tener el cambio de manera instantánea
      */
-    this.tareas = this.tareas.map((tarea) => {
-      if (tarea.id !== idTarea) {
-        return tarea;
-      }
 
-      return {
-        ...tarea,
-        titulo: data.titulo,
-        descripcion: data.descripcion,
-        imagenUrl: data.imagenUrl || undefined,
-        fechaLimite: data.fechaLimite,
-        estado: data.estado,
-        prioridad: data.prioridad,
-        categoria: data.categoria,
-        porcentajeRealizado: data.porcentajeRealizado,
-        tiempoEstimado: data.tiempoEstimado,
-        asignados: this.obtenerAsignados(data.asignadosIds),
-      };
+    return this._tareService.actualizarTarea(idTarea, data).subscribe((tarea: any) => {
+      return tarea;
     });
   }
 
@@ -185,7 +155,7 @@ export class TableroTareasComponent implements OnInit {
         - Quitar de la UI la responsabilidad de generar el ID del comentario
 
      */
-    const autor = this.USUARIOS_MOCK[0];
+    const autor = this.usuarios[0];
     const mensaje = evento.mensaje.trim();
     if (!mensaje) {
       return;
@@ -221,7 +191,7 @@ export class TableroTareasComponent implements OnInit {
   }
 
   private obtenerAsignados(asignadosIds: number[]): Usuario[] {
-    return this.USUARIOS_MOCK.filter(usuario => asignadosIds.includes(usuario.id));
+    return this.usuarios.filter(usuario => asignadosIds.includes(usuario.id));
   }
 
   private formatearFechaHora(fecha: Date): string {

@@ -28,13 +28,13 @@ public class ParametrosCrearTarea {
     private String descripcion;
     private Date fechaCreacion;
     private Integer porcentajeRealizado;
-    @DecimalMin(value = "0.00", message = "tiempoEstimado debe ser mayor o igual que 0.00")
-    @Digits(integer = 5, fraction = 2, message = "tiempoEstimado permite hasta 5 enteros y 2 decimales")
+    //@DecimalMin(value = "0.00", message = "tiempoEstimado debe ser mayor o igual que 0.00")
+    //@Digits(integer = 5, fraction = 2, message = "tiempoEstimado permite hasta 5 enteros y 2 decimales")
     private BigDecimal tiempoEstimado;
-    private List<Usuario> asignados;
-    private Usuario autor;
+    private List<Long> asignadosIds;
+    private Long autorId;
 
-    @AssertTrue(message = "tiempoEstimado debe tener exactamente 2 decimales")
+    //@AssertTrue(message = "tiempoEstimado debe tener exactamente 2 decimales")
     public boolean isTiempoEstimadoConDosDecimales() {
         return tiempoEstimado == null || tiempoEstimado.scale() == 2;
     }

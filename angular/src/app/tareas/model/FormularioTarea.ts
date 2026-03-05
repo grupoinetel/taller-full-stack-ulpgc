@@ -14,4 +14,5 @@ export interface FormularioTarea {
   categoria?: CategoriaTarea;
   porcentajeRealizado: number;
   tiempoEstimado: number;
+  autorId?: number;
 }

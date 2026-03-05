@@ -24,8 +24,8 @@ public class CrearActualizarTareaCommand {
     private final Date fechaCreacion;
     private final Integer porcentajeRealizado;
     private final BigDecimal tiempoEstimado;
-    private final List<Usuario> asignados;
-    private final Usuario autor;
+    private final List<Long> asignados;
+    private final Long autor;
 
     public CrearActualizarTareaCommand(
             Long id,
@@ -40,8 +40,8 @@ public class CrearActualizarTareaCommand {
             Date fechaCreacion,
             Integer porcentajeRealizado,
             BigDecimal tiempoEstimado,
-            List<Usuario> asignados,
-            Usuario autor
+            List<Long> asignados,
+            Long autor
     ) {
         this.id = id;
         this.numero = numero;

@@ -34,8 +34,8 @@ public class TareaWebMapper {
                 parametros.getFechaCreacion(),
                 parametros.getPorcentajeRealizado(),
                 parametros.getTiempoEstimado(),
-                parametros.getAsignados(),
-                parametros.getAutor()
+                parametros.getAsignadosIds(),
+                parametros.getAutorId()
         );
     }
 }
