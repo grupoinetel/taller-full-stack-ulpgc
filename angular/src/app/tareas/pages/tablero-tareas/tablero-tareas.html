@@ -1,11 +1,14 @@
-<div class="d-flex justify-content-between" id="encabezado">
-  <h1>Tablero de tareas</h1>
-  <button class="btn btn-primary fs-5" (click)="crearTarea()">
+<header class="tablero-header" id="encabezado">
+  <h1 class="tablero-titulo m-0">
+    <img class="tablero-logo" src="/assets/images/logo-inetel.png" alt="Logo INETEL">
+    <span>Tablero de tareas</span>
+  </h1>
+  <button class="btn btn-primary btn-sm tablero-boton-crear" (click)="crearTarea()">
     <i class="bi bi-plus-lg"></i>
     Crear tarea
   </button>
-</div>
-<div class="row mt-3">
+</header>
+<div class="row mt-4">
   @for (estado of this.estados; track estado) {
     <div class="col columna px-3">
       <div class="d-flex align-items-center mb-3 mt-2 encabezado-columna">
@@ -23,10 +26,10 @@
             />
           }
           <div class="card-body">
-            <h5 class="card-title">{{tarea.numero}}. {{ tarea.titulo }}</h5>
+            <span class="fw-bold">#{{ tarea.numero }}</span>
+            <h5 class="card-title">{{ tarea.titulo }}</h5>
             <div>
-              <i class="bi bi-calendar-check mx-2"></i>
-              {{ formatearFechaLimite(tarea.fechaLimite) }}
+              <i class="bi bi-calendar-event me-2"></i>{{ formatearFechaLimite(tarea.fechaLimite) }}
             </div>
             <span
               class="badge text-bg-{{PRIORIDAD_TAREA_COLORES[tarea.prioridad]}} mt-2">
@@ -44,6 +47,6 @@
   [usuarios]="USUARIOS_MOCK"
   (guardarEvent)="guardarTarea($event)"
   (agregarComentarioEvent)="agregarComentario($event)"
-  (solicitarEdicion)="editarDesdeDetalle($event)"
+  (editarEvent)="editarDesdeDetalle($event)"
   (eliminarEvent)="eliminarTarea($event)">
 </app-modal-tarea>

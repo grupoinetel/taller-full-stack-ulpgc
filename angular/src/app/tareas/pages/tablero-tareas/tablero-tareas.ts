@@ -3,8 +3,9 @@ import {Usuario} from '../../../usuarios/model/Usuario';
 import {DetalleTarea} from '../../model/DetalleTarea';
 import {ESTADO_TAREA_COLORES, ESTADO_TAREA_LABELS, EstadoTarea} from '../../model/EstadoTarea';
 import {PRIORIDAD_TAREA_COLORES, PrioridadTarea} from '../../model/PrioridadTarea';
-import {FormularioTarea, ModalTarea} from '../../components/modal-tarea/modal-tarea';
+import {ModalTarea} from '../../components/modal-tarea/modal-tarea';
 import {CategoriaTarea} from '../../model/CategoriaTarea';
+import {FormularioTarea} from '../../model/FormularioTarea';
 
 @Component({
   selector: 'app-tablero-tareas',
@@ -271,6 +272,7 @@ export class TableroTareasComponent implements OnInit {
   private siguienteNumero = 123001;
 
   ngOnInit() {
+    //TODO: Llamar a la API para obtener las tareas. Solo sería necesario agrupar las tareas por estado.
     this.tareas = this.TAREAS_MOCK.map((tarea) => ({
       ...tarea,
       asignados: [...tarea.asignados],
@@ -297,10 +299,11 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected crearTarea(): void {
-    this.modalTarea?.abrirCrear();
+    this.modalTarea?.abrirModal('formulario', undefined);
   }
 
-  protected formatearFechaLimite(fechaLimite: string | null): string {
+  protected formatearFechaLimite(fechaLimite?: string): string {
+    //TODO: Cambiar esto por un pipe que formatee la fecha y se use directamente en el HTML
     if (!fechaLimite) {
       return 'Sin fecha límite';
     }
@@ -320,12 +323,12 @@ export class TableroTareasComponent implements OnInit {
     // TODO: Hacer la llamada a la API para obtener la tarea por ID.
     const tarea = this.tareas.find((t) => t.id === idTarea);
     if (tarea) {
-      this.modalTarea?.abrirDetalle(tarea);
+      this.modalTarea?.abrirModal('detalle', tarea);
     }
   }
 
   protected editarDesdeDetalle(tarea: DetalleTarea): void {
-    this.modalTarea?.abrirEditar(tarea);
+    this.modalTarea?.abrirModal('formulario', tarea);
   }
 
   protected eliminarTarea(idTarea: number): void {
@@ -344,19 +347,17 @@ export class TableroTareasComponent implements OnInit {
   }
 
   private nuevaTarea(data: FormularioTarea): void {
+    /* TODO:
+        -Hacer la llamada a la API para crear la tarea.
+        - Eliminar del cliente la responsabilidad de crear el ID, el número y la fecha de creación
+        - Refrescar la vista de Angular para mostrar los nuevos datos
+        - Dejaría algo de este código para que en la interfaz los datos se tengan desde que se guarda.
+     */
     const autor = this.USUARIOS_MOCK[0];
     const tarea: DetalleTarea = {
+      ...data,
       id: this.siguienteId++,
       numero: this.siguienteNumero++,
-      titulo: data.titulo,
-      descripcion: data.descripcion,
-      imagenUrl: data.imagenUrl || undefined,
-      fechaLimite: data.fechaLimite,
-      estado: data.estado,
-      prioridad: data.prioridad,
-      categoria: data.categoria,
-      porcentajeRealizado: data.porcentajeRealizado,
-      tiempoEstimado: data.tiempoEstimado,
       fechaCreacion: this.formatearFechaHora(new Date()),
       autor,
       asignados: this.obtenerAsignados(data.asignadosIds),
@@ -367,6 +368,10 @@ export class TableroTareasComponent implements OnInit {
   }
 
   private actualizarTarea(idTarea: number, data: FormularioTarea): void {
+    /* TODO:
+         - Hacer la llamada a la API para actualizar la tarea.
+         - Dejaría algo del código a continuación para tener el cambio de manera instantánea
+     */
     this.tareas = this.tareas.map((tarea) => {
       if (tarea.id !== idTarea) {
         return tarea;
@@ -389,6 +394,12 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected agregarComentario(evento: {tareaId: number; mensaje: string}): void {
+    /* TODO:
+        -Cambiar por la llamada de agregar comentario
+        -Se asume que todos los comentarios están hechos por un usuario
+        - Quitar de la UI la responsabilidad de generar el ID del comentario
+
+     */
     const autor = this.USUARIOS_MOCK[0];
     const mensaje = evento.mensaje.trim();
     if (!mensaje) {
@@ -420,17 +431,16 @@ export class TableroTareasComponent implements OnInit {
 
     const tareaActualizada = this.tareas.find((tarea) => tarea.id === evento.tareaId);
     if (tareaActualizada) {
-      this.modalTarea?.abrirDetalle(tareaActualizada);
+      this.modalTarea?.abrirModal('detalle', tareaActualizada);
     }
   }
 
   private obtenerAsignados(asignadosIds: number[]): Usuario[] {
-    return Array.from(new Set(asignadosIds))
-      .map((id) => this.USUARIOS_MOCK.find((usuario) => usuario.id === id))
-      .filter((usuario): usuario is Usuario => Boolean(usuario));
+    return this.USUARIOS_MOCK.filter(usuario => asignadosIds.includes(usuario.id));
   }
 
   private formatearFechaHora(fecha: Date): string {
+    //TODO: Cambiar por el pipe
     const anio = fecha.getFullYear();
     const mes = String(fecha.getMonth() + 1).padStart(2, '0');
     const dia = String(fecha.getDate()).padStart(2, '0');

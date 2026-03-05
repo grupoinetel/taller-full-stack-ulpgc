@@ -1,3 +1,50 @@
+.tablero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: -50px -50px 1.25rem;
+  padding: 18px 50px 16px;
+  background: linear-gradient(120deg, #e8eef8 0%, #dfe8f5 45%, #d5e1f1 100%);
+}
+
+.tablero-titulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #22304a;
+}
+
+.tablero-logo {
+  width: 70px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.tablero-boton-crear {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.32rem 0.72rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .tablero-header {
+    padding: 14px 50px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tablero-logo {
+    width: 34px;
+    height: 34px;
+  }
+}
+
 .encabezado-columna > i {
   cursor: pointer;
 }
