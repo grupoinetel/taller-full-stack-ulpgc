@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  color-scheme: light;
+  --bs-body-font-family: "Roboto", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
+  padding: 50px 50px;
+  background-color: var(--bs-body-bg) !important;
+  color: #1f2a3a;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+.modal-body {
+  background: #f8fafc;
+  padding: 1.5rem;
+}
+
+
+@media (max-width: 1000px) {
+  .modal-body {
+    padding: 16px;
+  }
+
+  .fila-detalle-tarea {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+}

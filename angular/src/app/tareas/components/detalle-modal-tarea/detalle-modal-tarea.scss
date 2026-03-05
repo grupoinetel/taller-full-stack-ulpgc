@@ -1,0 +1,159 @@
+.imagen-tarea {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.info-card h5 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.encabezado-comentarios {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.descripcion {
+  margin: 0;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.card-detalles-tarea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.fila-detalle-tarea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.fila-detalle-tarea:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.label-detalle-tarea {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.valor-detalle-tarea {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.badge {
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.4em 0.65em;
+}
+
+.progreso-tarea {
+  width: 150px;
+  position: relative;
+}
+
+.label-progreso-tarea {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+
+.label-claro-progreso-tarea {
+  color: white;
+}
+
+.lista-asignados {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.asignado-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.asignados-seleccionados {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.asignado-seleccionado-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.5rem 0.65rem;
+  background: #f8fafc;
+}
+
+.lista-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.comentario-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  background: #f8fafc;
+}
+
+.autor-comentario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.fecha-comentario {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.comentario-item p,
+.texto-vacio {
+  margin: 0;
+  color: #475569;
+}

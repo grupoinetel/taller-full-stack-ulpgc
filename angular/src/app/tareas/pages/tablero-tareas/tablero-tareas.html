@@ -1,0 +1,52 @@
+<header class="tablero-header" id="encabezado">
+  <h1 class="tablero-titulo m-0">
+    <img class="tablero-logo" src="/assets/images/logo-inetel.png" alt="Logo INETEL">
+    <span>Tablero de tareas</span>
+  </h1>
+  <button class="btn btn-primary btn-sm tablero-boton-crear" (click)="crearTarea()">
+    <i class="bi bi-plus-lg"></i>
+    Crear tarea
+  </button>
+</header>
+<div class="row mt-4">
+  @for (estado of this.estados; track estado) {
+    <div class="col columna px-3">
+      <div class="d-flex align-items-center mb-3 mt-2 encabezado-columna">
+        <span class="marcador-estado rounded-circle bg-{{ESTADO_TAREA_COLORES[estado]}}"></span>
+        <h4 class="m-0">{{ESTADO_TAREA_LABELS[estado] }}</h4>
+        <span class="badge-numero-tareas rounded-circle bg-primary">{{this.tareasAgrupadasPorEstado[estado].length}}</span>
+      </div>
+      @for (tarea of this.tareasAgrupadasPorEstado[estado]; track tarea.id) {
+        <div class="card mb-3" (click)="abrirModalTarea(tarea.id)">
+          @if (tarea.imagenUrl) {
+            <img
+              class="card-img-top"
+              [src]="tarea.imagenUrl"
+              alt="Portada de la tarea"
+            />
+          }
+          <div class="card-body">
+            <span class="fw-bold">#{{ tarea.numero }}</span>
+            <h5 class="card-title">{{ tarea.titulo }}</h5>
+            <div>
+              <i class="bi bi-calendar-event me-2"></i>{{ formatearFechaLimite(tarea.fechaLimite) }}
+            </div>
+            <span
+              class="badge text-bg-{{PRIORIDAD_TAREA_COLORES[tarea.prioridad]}} mt-2">
+              {{tarea.prioridad}}
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<app-modal-tarea
+  #modalTarea
+  [usuarios]="USUARIOS_MOCK"
+  (guardarEvent)="guardarTarea($event)"
+  (agregarComentarioEvent)="agregarComentario($event)"
+  (editarEvent)="editarDesdeDetalle($event)"
+  (eliminarEvent)="eliminarTarea($event)">
+</app-modal-tarea>
