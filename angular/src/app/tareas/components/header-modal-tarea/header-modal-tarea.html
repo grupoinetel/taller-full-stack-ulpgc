@@ -1,0 +1,17 @@
+<div class="modal-header">
+  @if (modo === 'detalle' && tarea) {
+    <div class="d-flex flex-column gap-1">
+      <span class="numero-tarea">#{{ tarea.numero }}</span>
+      <h4 id="modalTareaTitulo" class="modal-title">{{ tarea.titulo }}</h4>
+    </div>
+  } @else {
+    <h4 id="modalTareaTitulo" class="modal-title">
+      @if (tarea) {
+        Editar tarea #{{ tarea.numero }}
+      } @else {
+        Crear nueva tarea
+      }
+    </h4>
+  }
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+</div>
