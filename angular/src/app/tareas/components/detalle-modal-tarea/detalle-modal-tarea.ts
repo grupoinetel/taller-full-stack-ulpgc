@@ -75,23 +75,6 @@ export class DetalleModalTarea implements OnChanges {
     this.resetFormularioComentario();
   }
 
-  protected formatearFechaLimite(fechaLimite?: string): string {
-    //TODO: Cambiar esto por el pipe de la fecha que se va a crear
-    if (!fechaLimite) {
-      return 'Sin fecha límite';
-    }
-
-    const fecha = new Date(fechaLimite);
-    if (Number.isNaN(fecha.getTime())) {
-      return fechaLimite;
-    }
-
-    return new Intl.DateTimeFormat('es-ES', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(fecha);
-  }
-
   private resetFormularioComentario(): void {
     this.formularioComentario.reset({
       mensaje: '',
