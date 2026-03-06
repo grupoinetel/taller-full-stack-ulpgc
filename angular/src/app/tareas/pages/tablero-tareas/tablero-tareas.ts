@@ -41,7 +41,7 @@ export class TableroTareasComponent implements OnInit {
   private siguienteId = 1;
   private siguienteNumero = 123001;
 
-  constructor(private _tareService: TareaService,
+  constructor(private _tareaService: TareaService,
               private _comentarioService: ComentarioService,
               private _usuarioService: UsuarioService) {
   }
@@ -99,7 +99,7 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected eliminarTarea(idTarea: number): void {
-    this._tareService.eliminarTarea(idTarea).subscribe(() => {
+    this._tareaService.eliminarTarea(idTarea).subscribe(() => {
       this.obtenerYAgruparTodasLasTareas();
     })
   }
@@ -115,13 +115,13 @@ export class TableroTareasComponent implements OnInit {
   private nuevaTarea(data: FormularioTarea): void {
     data.autorId = this.usuarios[0].id;
 
-    this._tareService.crearTarea(data).subscribe((tarea: any) => {
+    this._tareaService.crearTarea(data).subscribe((tarea: any) => {
       this.tareas.push(tarea);
     })
   }
 
   private actualizarTarea(idTarea: number, data: FormularioTarea): void {
-    return this._tareService.actualizarTarea(idTarea, data).subscribe((tarea: DetalleTarea) => {
+    return this._tareaService.actualizarTarea(idTarea, data).subscribe((tarea: DetalleTarea) => {
       this.obtenerYAgruparTodasLasTareas();
       this.abrirModalTarea(tarea.id);
     });
@@ -165,7 +165,7 @@ export class TableroTareasComponent implements OnInit {
   }
 
   private obtenerYAgruparTodasLasTareas() {
-    this._tareService.obtenerTodasLasTareas().subscribe((tareas: PreviewTarea[]) => {
+    this._tareaService.obtenerTodasLasTareas().subscribe((tareas: PreviewTarea[]) => {
       this.tareas = tareas;
 
       this.siguienteId = Math.max(...this.tareas.map((tarea) => tarea.id)) + 1;
