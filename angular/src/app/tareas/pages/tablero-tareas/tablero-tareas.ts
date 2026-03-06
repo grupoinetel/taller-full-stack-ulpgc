@@ -39,14 +39,14 @@ export class TableroTareasComponent implements OnInit {
   private siguienteId = 1;
   private siguienteNumero = 123001;
 
-  constructor(private _tareService: TareaService,
+  constructor(private _tareaService: TareaService,
               private _usuarioService: UsuarioService) {
   }
 
   ngOnInit() {
     //TODO: Llamar a la API para obtener las tareas. Solo sería necesario agrupar las tareas por estado.
 
-    this._tareService.obtenerTodasLasTareas().subscribe((tareas: any[]) => {
+    this._tareaService.obtenerTodasLasTareas().subscribe((tareas: any[]) => {
       this.tareas = tareas;
 
       this.siguienteId = Math.max(...this.tareas.map((tarea) => tarea.id)) + 1;
@@ -132,7 +132,7 @@ export class TableroTareasComponent implements OnInit {
 
     data.autorId = this.usuarios[0].id;
 
-    this._tareService.crearTarea(data).subscribe((tarea: any) => {
+    this._tareaService.crearTarea(data).subscribe((tarea: any) => {
       this.tareas.push(tarea);
     })
   }
@@ -143,7 +143,7 @@ export class TableroTareasComponent implements OnInit {
          - Dejaría algo del código a continuación para tener el cambio de manera instantánea
      */
 
-    return this._tareService.actualizarTarea(idTarea, data).subscribe((tarea: any) => {
+    return this._tareaService.actualizarTarea(idTarea, data).subscribe((tarea: any) => {
       return tarea;
     });
   }
