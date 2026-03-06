@@ -11,6 +11,7 @@ import domain.model.Tarea;
 import domain.model.Usuario;
 import exception.ComentarioNotFoundException;
 
+import java.util.Date;
 import java.util.List;
 
 public class ComentarioService implements
@@ -43,7 +44,8 @@ public class ComentarioService implements
         comentarioDomain.setTarea(new Tarea(comentario.getIdTarea()));
         comentarioDomain.setMensaje(comentario.getContenido());
         comentarioDomain.setAutor(new Usuario(comentario.getIdAutor()));
-        comentarioDomain.setFecha(comentario.getFecha());
+        comentarioDomain.setFecha(new Date());
+        comentarioDomain.setId(null);
 
         return comentarioPersistencePort.save(comentarioDomain);
     }

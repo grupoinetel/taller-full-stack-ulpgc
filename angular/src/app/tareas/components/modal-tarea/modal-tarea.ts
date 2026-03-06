@@ -5,6 +5,7 @@ import {DetalleModalTarea} from '../detalle-modal-tarea/detalle-modal-tarea';
 import {FormularioModalTarea} from '../formulario-modal-tarea/formulario-modal-tarea';
 import {Usuario} from '../../../usuarios/model/Usuario';
 import {FormularioTarea} from '../../model/FormularioTarea';
+import {TareaService} from '../../services/tarea-service';
 
 declare var bootstrap: any;
 
@@ -36,14 +37,23 @@ export class ModalTarea implements AfterViewInit {
 
   private bsModal?: any;
 
+  constructor(private _tareaService: TareaService) {
+  }
+
   ngAfterViewInit() {
     this.bsModal = new bootstrap.Modal(this.modalTarea?.nativeElement);
   }
 
-  abrirModal(modo: 'detalle' | 'formulario', tarea?: DetalleTarea): void {
+  abrirModal(modo: 'detalle' | 'formulario', tareaId: number | null): void {
     this.modo = modo;
-    this.tarea = tarea;
-    this.bsModal?.show();
+    if (tareaId === null) {
+      this.bsModal?.show();
+    } else {
+      this._tareaService.obtenerTareaPorId(tareaId).subscribe((tarea: DetalleTarea) => {
+        this.tarea = tarea;
+        this.bsModal?.show();
+      });
+    }
   }
 
   editarTarea(): void {
@@ -80,6 +90,11 @@ export class ModalTarea implements AfterViewInit {
   }
 
   private cerrarModal(): void {
+    this.tarea = undefined;
     this.bsModal?.hide();
+  }
+
+  public coso() {
+    console.log('coso');
   }
 }

@@ -24,8 +24,7 @@ public class ComentarioWebMapper {
         return new CrearComentarioCommand(
                 request.getContenido(),
                 id,
-                request.getIdAutor(),
-                request.getFecha()
+                request.getIdAutor()
         );
     }
 }

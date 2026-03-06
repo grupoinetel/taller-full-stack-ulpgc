@@ -12,5 +12,4 @@ public class ParametrosCrearComentario {
     private String contenido;
     private Long idTarea;
     private Long idAutor;
-    private Date fecha;
 }

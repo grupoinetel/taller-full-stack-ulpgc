@@ -7,6 +7,8 @@ import {ModalTarea} from '../../components/modal-tarea/modal-tarea';
 import {FormularioTarea} from '../../model/FormularioTarea';
 import {TareaService} from '../../services/tarea-service';
 import {UsuarioService} from '../../../usuarios/services/usuario-service';
+import {ComentarioService} from '../../../comentarios/services/comentario-service';
+import {PreviewTarea} from '../../model/PreviewTarea';
 
 @Component({
   selector: 'app-tablero-tareas',
@@ -21,7 +23,7 @@ export class TableroTareasComponent implements OnInit {
   modalTarea?: ModalTarea;
 
   estados: EstadoTarea[] = Object.values(EstadoTarea);
-  tareas: DetalleTarea[] = [];
+  tareas: PreviewTarea[] = [];
 
   protected readonly ESTADO_TAREA_LABELS = ESTADO_TAREA_LABELS;
   protected readonly PRIORIDAD_TAREA_COLORES = PRIORIDAD_TAREA_COLORES;
@@ -29,7 +31,7 @@ export class TableroTareasComponent implements OnInit {
 
   usuarios: Usuario[] = [];
 
-  tareasAgrupadasPorEstado: Record<EstadoTarea, DetalleTarea[]> = {
+  tareasAgrupadasPorEstado: Record<EstadoTarea, PreviewTarea[]> = {
     PENDIENTE: [],
     EN_PROGRESO: [],
     EN_PRUEBAS: [],
@@ -40,21 +42,12 @@ export class TableroTareasComponent implements OnInit {
   private siguienteNumero = 123001;
 
   constructor(private _tareService: TareaService,
+              private _comentarioService: ComentarioService,
               private _usuarioService: UsuarioService) {
   }
 
   ngOnInit() {
-    //TODO: Llamar a la API para obtener las tareas. Solo sería necesario agrupar las tareas por estado.
-
-    this._tareService.obtenerTodasLasTareas().subscribe((tareas: any[]) => {
-      this.tareas = tareas;
-
-      this.siguienteId = Math.max(...this.tareas.map((tarea) => tarea.id)) + 1;
-      this.siguienteNumero = Math.max(...this.tareas.map((tarea) => tarea.numero)) + 1;
-
-      this.agruparTareasPorEstado();
-
-    })
+    this.obtenerYAgruparTodasLasTareas();
 
     this._usuarioService.obtenerTodosLosUsuarios().subscribe((usuarios: any[]) => {
       this.usuarios = usuarios;
@@ -75,7 +68,7 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected crearTarea(): void {
-    this.modalTarea?.abrirModal('formulario', undefined);
+    this.modalTarea?.abrirModal('formulario', null);
   }
 
   protected formatearFechaLimite(fechaLimite?: string): string {
@@ -96,20 +89,19 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected abrirModalTarea(idTarea: number): void {
-    // TODO: Hacer la llamada a la API para obtener la tarea por ID.
-    const tarea = this.tareas.find((t) => t.id === idTarea);
-    if (tarea) {
-      this.modalTarea?.abrirModal('detalle', tarea);
+    if (idTarea) {
+      this.modalTarea?.abrirModal('detalle', idTarea);
     }
   }
 
   protected editarDesdeDetalle(tarea: DetalleTarea): void {
-    this.modalTarea?.abrirModal('formulario', tarea);
+    this.modalTarea?.abrirModal('formulario', tarea.id);
   }
 
   protected eliminarTarea(idTarea: number): void {
-    this.tareas = this.tareas.filter((tarea) => tarea.id !== idTarea);
-    this.agruparTareasPorEstado();
+    this._tareService.eliminarTarea(idTarea).subscribe(() => {
+      this.obtenerYAgruparTodasLasTareas();
+    })
   }
 
   protected guardarTarea(evento: {id?: number; data: FormularioTarea}): void {
@@ -118,18 +110,9 @@ export class TableroTareasComponent implements OnInit {
     } else {
       this.nuevaTarea(evento.data);
     }
-
-    this.agruparTareasPorEstado();
   }
 
   private nuevaTarea(data: FormularioTarea): void {
-    /* TODO:
-        -Hacer la llamada a la API para crear la tarea.
-        - Eliminar del cliente la responsabilidad de crear el ID, el número y la fecha de creación
-        - Refrescar la vista de Angular para mostrar los nuevos datos
-        - Dejaría algo de este código para que en la interfaz los datos se tengan desde que se guarda.
-     */
-
     data.autorId = this.usuarios[0].id;
 
     this._tareService.crearTarea(data).subscribe((tarea: any) => {
@@ -138,13 +121,9 @@ export class TableroTareasComponent implements OnInit {
   }
 
   private actualizarTarea(idTarea: number, data: FormularioTarea): void {
-    /* TODO:
-         - Hacer la llamada a la API para actualizar la tarea.
-         - Dejaría algo del código a continuación para tener el cambio de manera instantánea
-     */
-
-    return this._tareService.actualizarTarea(idTarea, data).subscribe((tarea: any) => {
-      return tarea;
+    return this._tareService.actualizarTarea(idTarea, data).subscribe((tarea: DetalleTarea) => {
+      this.obtenerYAgruparTodasLasTareas();
+      this.abrirModalTarea(tarea.id);
     });
   }
 
@@ -161,33 +140,13 @@ export class TableroTareasComponent implements OnInit {
       return;
     }
 
-    this.tareas = this.tareas.map((tarea) => {
-      if (tarea.id !== evento.tareaId) {
-        return tarea;
-      }
-
-      const siguienteComentarioId = tarea.comentarios.length
-        ? Math.max(...tarea.comentarios.map((comentario) => comentario.id)) + 1
-        : 1;
-
-      return {
-        ...tarea,
-        comentarios: [
-          ...tarea.comentarios,
-          {
-            id: siguienteComentarioId,
-            autor,
-            contenido: mensaje,
-            fecha: this.formatearFechaHora(new Date()),
-          },
-        ],
-      };
+    this._comentarioService.crearComentario(evento.tareaId, {
+      idAutor: autor.id,
+      contenido: mensaje,
+    }).subscribe(() => {
+      this.obtenerYAgruparTodasLasTareas();
+      this.abrirModalTarea(evento.tareaId);
     });
-
-    const tareaActualizada = this.tareas.find((tarea) => tarea.id === evento.tareaId);
-    if (tareaActualizada) {
-      this.modalTarea?.abrirModal('detalle', tareaActualizada);
-    }
   }
 
   private obtenerAsignados(asignadosIds: number[]): Usuario[] {
@@ -203,5 +162,17 @@ export class TableroTareasComponent implements OnInit {
     const minutos = String(fecha.getMinutes()).padStart(2, '0');
 
     return `${anio}-${mes}-${dia} ${horas}:${minutos}`;
+  }
+
+  private obtenerYAgruparTodasLasTareas() {
+    this._tareService.obtenerTodasLasTareas().subscribe((tareas: PreviewTarea[]) => {
+      this.tareas = tareas;
+
+      this.siguienteId = Math.max(...this.tareas.map((tarea) => tarea.id)) + 1;
+      this.siguienteNumero = Math.max(...this.tareas.map((tarea) => tarea.numero)) + 1;
+
+      this.agruparTareasPorEstado();
+
+    });
   }
 }

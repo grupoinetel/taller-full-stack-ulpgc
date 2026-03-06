@@ -6,15 +6,13 @@ import java.util.Date;
 
 @Getter
 public class CrearComentarioCommand {
-    private String contenido;
-    private Long idTarea;
-    private Long idAutor;
-    private Date fecha;
+    private final String contenido;
+    private final Long idTarea;
+    private final Long idAutor;
 
-    public CrearComentarioCommand(String contenido, Long idTarea, Long idAutor, Date fecha) {
+    public CrearComentarioCommand(String contenido, Long idTarea, Long idAutor) {
         this.contenido = contenido;
         this.idTarea = idTarea;
         this.idAutor = idAutor;
-        this.fecha = fecha;
     }
 }

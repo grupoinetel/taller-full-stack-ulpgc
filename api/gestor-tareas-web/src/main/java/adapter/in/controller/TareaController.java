@@ -54,7 +54,7 @@ public class TareaController {
     public ResponseEntity<TareaResponse> get(@PathVariable("id") Long id) {
         Tarea tarea = obtenerTareaUseCase.obtenerTarea(id);
 
-        return ResponseEntity.ok(this.tareaWebMapper.toResponse(tarea));
+        return ResponseEntity.ok(this.tareaWebMapper.toDetalleResponse(tarea));
     }
 
     @PutMapping("/{id}")
