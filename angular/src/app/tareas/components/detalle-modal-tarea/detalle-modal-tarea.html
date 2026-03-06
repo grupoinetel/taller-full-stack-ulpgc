@@ -80,7 +80,7 @@
         </div>
         <div class="fila-detalle-tarea">
           <div class="label-detalle-tarea"><i class="bi bi-calendar-event"></i> Fecha límite</div>
-          <div class="valor-detalle-tarea">{{ formatearFechaLimite(tarea.fechaLimite) }}</div>
+          <div class="valor-detalle-tarea">{{ tarea.fechaLimite | date:'dd/MM/yyyy HH:mm' }}</div>
         </div>
         <div class="fila-detalle-tarea">
           <div class="label-detalle-tarea"><i class="bi bi-graph-up-arrow"></i> Progreso</div>
@@ -111,7 +111,7 @@
         </div>
         <div class="fila-detalle-tarea">
           <div class="label-detalle-tarea"><i class="bi bi-calendar-plus"></i> Fecha creación</div>
-          <div class="valor-detalle-tarea">{{ tarea.fechaCreacion }}</div>
+          <div class="valor-detalle-tarea">{{ tarea.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</div>
         </div>
         <div class="fila-detalle-tarea">
           <div class="label-detalle-tarea"><i class="bi bi-person-circle"></i> Creado por</div>

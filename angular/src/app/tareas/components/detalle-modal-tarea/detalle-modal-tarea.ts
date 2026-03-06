@@ -4,7 +4,7 @@ import {Avatar} from '../../../comun/components/avatar/avatar';
 import {ESTADO_TAREA_COLORES, ESTADO_TAREA_LABELS} from '../../model/EstadoTarea';
 import {PRIORIDAD_TAREA_COLORES, PRIORIDAD_TAREA_LABELS} from '../../model/PrioridadTarea';
 import {CATEGORIA_TAREA_COLORES, CATEGORIA_TAREA_LABELS} from '../../model/CategoriaTarea';
-import {NgClass} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
 @Component({
@@ -13,6 +13,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
     Avatar,
     NgClass,
     ReactiveFormsModule,
+    DatePipe,
   ],
   templateUrl: './detalle-modal-tarea.html',
   styleUrl: './detalle-modal-tarea.scss',
@@ -67,23 +68,6 @@ export class DetalleModalTarea implements OnChanges {
 
     this.mostrandoFormularioComentario = false;
     this.resetFormularioComentario();
-  }
-
-  protected formatearFechaLimite(fechaLimite?: string): string {
-    //TODO: Cambiar esto por el pipe de la fecha que se va a crear
-    if (!fechaLimite) {
-      return 'Sin fecha límite';
-    }
-
-    const fecha = new Date(fechaLimite);
-    if (Number.isNaN(fecha.getTime())) {
-      return fechaLimite;
-    }
-
-    return new Intl.DateTimeFormat('es-ES', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(fecha);
   }
 
   private resetFormularioComentario(): void {

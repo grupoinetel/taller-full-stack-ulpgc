@@ -29,7 +29,7 @@
             <span class="fw-bold">#{{ tarea.numero }}</span>
             <h5 class="card-title">{{ tarea.titulo }}</h5>
             <div>
-              <i class="bi bi-calendar-event me-2"></i>{{ formatearFechaLimite(tarea.fechaLimite) }}
+              <i class="bi bi-calendar-event me-2"></i>{{ tarea.fechaLimite | date:'dd/MM/yyyy HH:mm' }}
             </div>
             <span
               class="badge text-bg-{{PRIORIDAD_TAREA_COLORES[tarea.prioridad]}} mt-2">

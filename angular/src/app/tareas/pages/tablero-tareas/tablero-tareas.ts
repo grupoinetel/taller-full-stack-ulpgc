@@ -9,11 +9,13 @@ import {TareaService} from '../../services/tarea-service';
 import {UsuarioService} from '../../../usuarios/services/usuario-service';
 import {ComentarioService} from '../../../comentarios/services/comentario-service';
 import {PreviewTarea} from '../../model/PreviewTarea';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-tablero-tareas',
   imports: [
-    ModalTarea
+    ModalTarea,
+    DatePipe
   ],
   templateUrl: './tablero-tareas.html',
   styleUrl: './tablero-tareas.scss',
@@ -153,17 +155,6 @@ export class TableroTareasComponent implements OnInit {
 
   private obtenerAsignados(asignadosIds: number[]): Usuario[] {
     return this.usuarios.filter(usuario => asignadosIds.includes(usuario.id));
-  }
-
-  private formatearFechaHora(fecha: Date): string {
-    //TODO: Cambiar por el pipe
-    const anio = fecha.getFullYear();
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-    const dia = String(fecha.getDate()).padStart(2, '0');
-    const horas = String(fecha.getHours()).padStart(2, '0');
-    const minutos = String(fecha.getMinutes()).padStart(2, '0');
-
-    return `${anio}-${mes}-${dia} ${horas}:${minutos}`;
   }
 
   private obtenerYAgruparTodasLasTareas() {
