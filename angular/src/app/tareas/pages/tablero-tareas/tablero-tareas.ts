@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, signal, ViewChild, WritableSignal} from '@angular/core';
 import {Usuario} from '../../../usuarios/model/Usuario';
 import {DetalleTarea} from '../../model/DetalleTarea';
 import {ESTADO_TAREA_COLORES, ESTADO_TAREA_LABELS, EstadoTarea} from '../../model/EstadoTarea';
@@ -29,12 +29,12 @@ export class TableroTareasComponent implements OnInit {
 
   usuarios: Usuario[] = [];
 
-  tareasAgrupadasPorEstado: Record<EstadoTarea, DetalleTarea[]> = {
+  tareasAgrupadasPorEstado: WritableSignal<Record<EstadoTarea, DetalleTarea[]>> = signal({
     PENDIENTE: [],
     EN_PROGRESO: [],
     EN_PRUEBAS: [],
     HECHO: [],
-  };
+  });
 
   private siguienteId = 1;
   private siguienteNumero = 123001;
@@ -62,7 +62,7 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected agruparTareasPorEstado(): void {
-    this.tareasAgrupadasPorEstado = {
+    let agrupadas: Record<EstadoTarea, DetalleTarea[]> = {
       PENDIENTE: [],
       EN_PROGRESO: [],
       EN_PRUEBAS: [],
@@ -70,8 +70,10 @@ export class TableroTareasComponent implements OnInit {
     };
 
     this.tareas.forEach((tarea) => {
-      this.tareasAgrupadasPorEstado[tarea.estado].push(tarea);
+      agrupadas[tarea.estado].push(tarea);
     });
+
+    this.tareasAgrupadasPorEstado.set(agrupadas);
   }
 
   protected crearTarea(): void {

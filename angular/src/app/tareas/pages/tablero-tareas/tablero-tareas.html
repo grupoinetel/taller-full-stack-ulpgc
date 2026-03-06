@@ -14,9 +14,9 @@
       <div class="d-flex align-items-center mb-3 mt-2 encabezado-columna">
         <span class="marcador-estado rounded-circle bg-{{ESTADO_TAREA_COLORES[estado]}}"></span>
         <h4 class="m-0">{{ESTADO_TAREA_LABELS[estado] }}</h4>
-        <span class="badge-numero-tareas rounded-circle bg-primary">{{this.tareasAgrupadasPorEstado[estado].length}}</span>
+        <span class="badge-numero-tareas rounded-circle bg-primary">{{this.tareasAgrupadasPorEstado()[estado].length}}</span>
       </div>
-      @for (tarea of this.tareasAgrupadasPorEstado[estado]; track tarea.id) {
+      @for (tarea of this.tareasAgrupadasPorEstado()[estado]; track tarea.id) {
         <div class="card mb-3" (click)="abrirModalTarea(tarea.id)">
           @if (tarea.imagenUrl) {
             <img
