@@ -13,7 +13,7 @@ export class ComentarioService extends BaseService {
   }
 
   public obtenerComentariosTarea(idTarea: number) {
-    return this.construirPeticionGet(`${idTarea}`);
+    return this.construirPeticionGet(`tarea/${idTarea}`);
   }
 
   public eliminarComentario(id: number) {

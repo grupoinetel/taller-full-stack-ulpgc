@@ -6,6 +6,8 @@ import {FormularioModalTarea} from '../formulario-modal-tarea/formulario-modal-t
 import {Usuario} from '../../../usuarios/model/Usuario';
 import {FormularioTarea} from '../../model/FormularioTarea';
 import {TareaService} from '../../services/tarea-service';
+import {ComentarioService} from '../../../comentarios/services/comentario-service';
+import {Comentario} from '../../../comentarios/model/Comentario';
 
 declare var bootstrap: any;
 
@@ -33,11 +35,13 @@ export class ModalTarea implements AfterViewInit {
   @Output() agregarComentarioEvent = new EventEmitter<{tareaId: number; mensaje: string}>();
 
   tarea?: DetalleTarea;
+  comentarios: Comentario[] = [];
   modo: 'detalle' | 'formulario' = 'detalle';
 
   private bsModal?: any;
 
-  constructor(private _tareaService: TareaService) {
+  constructor(private _tareaService: TareaService,
+              private _comentarioService: ComentarioService) {
   }
 
   ngAfterViewInit() {
@@ -51,9 +55,16 @@ export class ModalTarea implements AfterViewInit {
     } else {
       this._tareaService.obtenerTareaPorId(tareaId).subscribe((tarea: DetalleTarea) => {
         this.tarea = tarea;
+        this.obtenerComentariosPorTareaId(tarea.id);
         this.bsModal?.show();
       });
     }
+  }
+
+  obtenerComentariosPorTareaId(tareaId: number): void {
+    this._comentarioService.obtenerComentariosTarea(tareaId).subscribe((comentarios: Comentario[]) => {
+      this.comentarios = comentarios;
+    });
   }
 
   editarTarea(): void {
@@ -91,10 +102,19 @@ export class ModalTarea implements AfterViewInit {
 
   private cerrarModal(): void {
     this.tarea = undefined;
+    this.comentarios = [];
     this.bsModal?.hide();
   }
 
   public coso() {
     console.log('coso');
+  }
+
+  protected eliminarComentario($event: { id: number }) {
+    this._comentarioService.eliminarComentario($event.id).subscribe(() => {
+      if (this.tarea) {
+        this.obtenerComentariosPorTareaId(this.tarea.id);
+      }
+    });
   }
 }

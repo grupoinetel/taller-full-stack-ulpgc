@@ -27,7 +27,10 @@
                     <app-avatar [usuario]="comentario.autor"></app-avatar>
                     {{ comentario.autor.nombre }}
                   </div>
-                  <span class="fecha-comentario">{{ comentario.fecha }}</span>
+                  <span class="fecha-comentario">{{ comentario.fecha | date:"short" }}</span>
+                  <button (click)="borrarComentario(comentario.id)" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash alert-danger"></i>
+                  </button>
                 </div>
                 <p>{{ comentario.contenido }}</p>
               </div>

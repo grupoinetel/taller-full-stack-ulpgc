@@ -12,6 +12,8 @@
         @if (modo === 'detalle') {
           <app-detalle-modal-tarea
             [tarea]="tarea"
+            [comentarios]="comentarios"
+            (eliminarComentarioEvent)="eliminarComentario($event)"
             (agregarComentarioEvent)="agregarComentario($event)">
           </app-detalle-modal-tarea>
         } @else {

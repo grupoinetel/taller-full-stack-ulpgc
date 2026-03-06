@@ -4,8 +4,9 @@ import {Avatar} from '../../../comun/components/avatar/avatar';
 import {ESTADO_TAREA_COLORES, ESTADO_TAREA_LABELS} from '../../model/EstadoTarea';
 import {PRIORIDAD_TAREA_COLORES, PRIORIDAD_TAREA_LABELS} from '../../model/PrioridadTarea';
 import {CATEGORIA_TAREA_COLORES, CATEGORIA_TAREA_LABELS} from '../../model/CategoriaTarea';
-import {NgClass} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Comentario} from '../../../comentarios/model/Comentario';
 
 @Component({
   selector: 'app-detalle-modal-tarea',
@@ -13,6 +14,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
     Avatar,
     NgClass,
     ReactiveFormsModule,
+    DatePipe,
   ],
   templateUrl: './detalle-modal-tarea.html',
   styleUrl: './detalle-modal-tarea.scss',
@@ -21,7 +23,11 @@ export class DetalleModalTarea implements OnChanges {
   @Input()
   tarea?: DetalleTarea;
 
+  @Input()
+  comentarios?: Comentario[];
+
   @Output() agregarComentarioEvent = new EventEmitter<{tareaId: number; mensaje: string}>();
+  @Output() eliminarComentarioEvent = new EventEmitter<{id: number}>();
 
   protected readonly ESTADO_TAREA_COLORES = ESTADO_TAREA_COLORES;
   protected readonly ESTADO_TAREA_LABELS = ESTADO_TAREA_LABELS;
@@ -90,5 +96,9 @@ export class DetalleModalTarea implements OnChanges {
     this.formularioComentario.reset({
       mensaje: '',
     });
+  }
+
+  protected borrarComentario(id: number) {
+    this.eliminarComentarioEvent.emit({id});
   }
 }
