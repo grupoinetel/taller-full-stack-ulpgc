@@ -55,7 +55,7 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected agruparTareasPorEstado(): void {
-    let agrupadas: Record<EstadoTarea, DetalleTarea[]> = {
+    let agrupadas: Record<EstadoTarea, PreviewTarea[]> = {
       PENDIENTE: [],
       EN_PROGRESO: [],
       EN_PRUEBAS: [],
