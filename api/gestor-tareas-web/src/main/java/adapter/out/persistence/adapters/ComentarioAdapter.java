@@ -49,9 +49,8 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
     }
 
     private ComentarioJpaEntity toJpaEntity(Comentario comentario) {
-        ComentarioJpaEntity comentarioJpaEntity = new ComentarioJpaEntity();
+        ComentarioJpaEntity comentarioJpaEntity = new ComentarioJpaEntity(comentario.getId());
 
-        comentarioJpaEntity.setId(comentario.getId());
         comentarioJpaEntity.setMensaje(comentario.getMensaje());
         comentarioJpaEntity.setFecha(comentario.getFecha());
 

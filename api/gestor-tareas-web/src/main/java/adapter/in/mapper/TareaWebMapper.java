@@ -1,6 +1,7 @@
 package adapter.in.mapper;
 
 import adapter.in.dto.ParametrosCrearTarea;
+import adapter.in.dto.TareaDetalleResponse;
 import adapter.in.dto.TareaResponse;
 import application.port.commands.CrearActualizarTareaCommand;
 import domain.model.Tarea;
@@ -14,6 +15,10 @@ public class TareaWebMapper {
 
     public TareaResponse toResponse(Tarea tarea) {
         return new TareaResponse(tarea);
+    }
+
+    public TareaDetalleResponse toDetalleResponse(Tarea tarea) {
+        return new TareaDetalleResponse(tarea);
     }
 
     public List<TareaResponse> toResponseList(List<Tarea> tareas) {

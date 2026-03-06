@@ -14,7 +14,7 @@ export class TareaService extends BaseService {
   }
 
   public obtenerTareaPorId(id: number) {
-    return this.construirPeticionGet(`/${id}`);
+    return this.construirPeticionGet(`${id}`);
   }
 
   public crearTarea(data: FormularioTarea) {
@@ -26,7 +26,7 @@ export class TareaService extends BaseService {
   }
 
   public eliminarTarea(id: number) {
-    return this.construirPeticionDelete(`/${id}`);
+    return this.construirPeticionDelete(`${id}`);
   }
 
   public obtenerComentariosDeTarea(id: number) {
