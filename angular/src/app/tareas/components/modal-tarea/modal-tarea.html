@@ -1,10 +1,6 @@
-<div id="modalTarea" #modalTarea class="modal" tabindex="-1" aria-labelledby="modalTareaTitulo" aria-hidden="true">
+<div id="modalTarea" #modalTarea on class="modal" tabindex="-1" aria-labelledby="modalTareaTitulo" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-
-      <button (click)="coso()">
-        HOLI
-      </button>
 
       <app-header-modal-tarea [modo]="modo" [tarea]="tarea"></app-header-modal-tarea>
 
@@ -12,6 +8,7 @@
         @if (modo === 'detalle') {
           <app-detalle-modal-tarea
             [tarea]="tarea"
+            [dataLoaded]="loadingTarea() && loadingComentarios()"
             [comentarios]="comentarios"
             (eliminarComentarioEvent)="eliminarComentario($event)"
             (agregarComentarioEvent)="agregarComentario($event)">
@@ -19,6 +16,7 @@
         } @else {
           <app-formulario-modal-tarea
             [tarea]="tarea"
+            [dataLoaded]="loadingTarea()"
             [usuarios]="usuarios"
             (guardarEvent)="guardarFormulario($event)">
           </app-formulario-modal-tarea>

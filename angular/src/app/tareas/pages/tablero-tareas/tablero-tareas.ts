@@ -40,9 +40,6 @@ export class TableroTareasComponent implements OnInit {
     HECHO: [],
   });
 
-  private siguienteId = 1;
-  private siguienteNumero = 123001;
-
   constructor(private _tareaService: TareaService,
               private _comentarioService: ComentarioService,
               private _usuarioService: UsuarioService) {
@@ -98,8 +95,8 @@ export class TableroTareasComponent implements OnInit {
     }
   }
 
-  protected editarDesdeDetalle(tarea: DetalleTarea): void {
-    this.modalTarea?.abrirModal('formulario', tarea.id);
+  protected editarDesdeDetalle(id: number): void {
+    this.modalTarea?.abrirModal('formulario', id);
   }
 
   protected eliminarTarea(idTarea: number): void {
@@ -160,9 +157,6 @@ export class TableroTareasComponent implements OnInit {
   private obtenerYAgruparTodasLasTareas() {
     this._tareaService.obtenerTodasLasTareas().subscribe((tareas: PreviewTarea[]) => {
       this.tareas = tareas;
-
-      this.siguienteId = Math.max(...this.tareas.map((tarea) => tarea.id)) + 1;
-      this.siguienteNumero = Math.max(...this.tareas.map((tarea) => tarea.numero)) + 1;
 
       this.agruparTareasPorEstado();
 

@@ -35,6 +35,7 @@ services:
       - "5005:5005"
     volumes:
       - gestortareas_back_tmp_vol:/tmp
+      - ./api/gestor-tareas-web/target/full-stack-web-1.0.war:/usr/local/tomcat/webapps/ROOT.war
     networks:
       gestortareas_network:
         aliases:

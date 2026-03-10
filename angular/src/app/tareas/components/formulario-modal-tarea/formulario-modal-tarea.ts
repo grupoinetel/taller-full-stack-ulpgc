@@ -22,6 +22,7 @@ import {NgClass} from '@angular/common';
 export class FormularioModalTarea implements OnChanges {
   @Input() tarea?: DetalleTarea;
   @Input() usuarios: Usuario[] = [];
+  @Input() dataLoaded!: boolean;
 
   @Output() guardarEvent = new EventEmitter<{id?: number; data: FormularioTarea}>();
 

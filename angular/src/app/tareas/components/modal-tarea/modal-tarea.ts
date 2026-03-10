@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  Signal,
+  signal,
+  ViewChild, WritableSignal
+} from '@angular/core';
 import {DetalleTarea} from '../../model/DetalleTarea';
 import {HeaderModalTarea} from '../header-modal-tarea/header-modal-tarea';
 import {DetalleModalTarea} from '../detalle-modal-tarea/detalle-modal-tarea';
@@ -30,12 +40,18 @@ export class ModalTarea implements AfterViewInit {
   @Input() usuarios: Usuario[] = [];
 
   @Output() guardarEvent = new EventEmitter<{id?: number; data: FormularioTarea}>();
-  @Output() editarEvent = new EventEmitter<DetalleTarea>();
+  @Output() editarEvent = new EventEmitter<number>();
   @Output() eliminarEvent = new EventEmitter<number>();
   @Output() agregarComentarioEvent = new EventEmitter<{tareaId: number; mensaje: string}>();
 
   tarea?: DetalleTarea;
+
   comentarios: Comentario[] = [];
+
+  loadingTarea: WritableSignal<boolean> = signal(true);
+
+  loadingComentarios: WritableSignal<boolean> = signal(true);
+
   modo: 'detalle' | 'formulario' = 'detalle';
 
   private bsModal?: any;
@@ -46,30 +62,36 @@ export class ModalTarea implements AfterViewInit {
 
   ngAfterViewInit() {
     this.bsModal = new bootstrap.Modal(this.modalTarea?.nativeElement);
+    this.modalTarea?.nativeElement.addEventListener('hidden.bs.modal', () => {this.cerrarModal();});
   }
 
   abrirModal(modo: 'detalle' | 'formulario', tareaId: number | null): void {
     this.modo = modo;
     if (tareaId === null) {
       this.bsModal?.show();
+      this.loadingTarea.set(false);
     } else {
+      this.loadingTarea.set(true);
       this._tareaService.obtenerTareaPorId(tareaId).subscribe((tarea: DetalleTarea) => {
         this.tarea = tarea;
         this.obtenerComentariosPorTareaId(tarea.id);
         this.bsModal?.show();
+        this.loadingTarea.set(false);
       });
     }
   }
 
   obtenerComentariosPorTareaId(tareaId: number): void {
+    this.loadingComentarios.set(true);
     this._comentarioService.obtenerComentariosTarea(tareaId).subscribe((comentarios: Comentario[]) => {
       this.comentarios = comentarios;
+      this.loadingComentarios.set(false);
     });
   }
 
   editarTarea(): void {
     if (this.tarea) {
-      this.editarEvent.emit(this.tarea);
+      this.editarEvent.emit(this.tarea.id as number);
     }
   }
 
@@ -83,7 +105,7 @@ export class ModalTarea implements AfterViewInit {
       return;
     }
 
-    this.eliminarEvent.emit(this.tarea.id);
+    this.eliminarEvent.emit(this.tarea.id as number);
     this.cerrarModal();
   }
 
@@ -106,14 +128,10 @@ export class ModalTarea implements AfterViewInit {
     this.bsModal?.hide();
   }
 
-  public coso() {
-    console.log('coso');
-  }
-
   protected eliminarComentario($event: { id: number }) {
     this._comentarioService.eliminarComentario($event.id).subscribe(() => {
       if (this.tarea) {
-        this.obtenerComentariosPorTareaId(this.tarea.id);
+        this.obtenerComentariosPorTareaId(this.tarea.id as number);
       }
     });
   }
