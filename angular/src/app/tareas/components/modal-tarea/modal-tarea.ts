@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Signal,
   signal,
   ViewChild, WritableSignal
 } from '@angular/core';
@@ -50,8 +49,6 @@ export class ModalTarea implements AfterViewInit {
 
   loadingTarea: WritableSignal<boolean> = signal(true);
 
-  loadingComentarios: WritableSignal<boolean> = signal(true);
-
   modo: 'detalle' | 'formulario' = 'detalle';
 
   private bsModal?: any;
@@ -75,17 +72,16 @@ export class ModalTarea implements AfterViewInit {
       this._tareaService.obtenerTareaPorId(tareaId).subscribe((tarea: DetalleTarea) => {
         this.tarea = tarea;
         this.obtenerComentariosPorTareaId(tarea.id);
-        this.bsModal?.show();
-        this.loadingTarea.set(false);
       });
     }
   }
 
   obtenerComentariosPorTareaId(tareaId: number): void {
-    this.loadingComentarios.set(true);
+    this.comentarios = [];
     this._comentarioService.obtenerComentariosTarea(tareaId).subscribe((comentarios: Comentario[]) => {
       this.comentarios = comentarios;
-      this.loadingComentarios.set(false);
+      this.bsModal?.show();
+      this.loadingTarea.set(false);
     });
   }
 
@@ -131,6 +127,7 @@ export class ModalTarea implements AfterViewInit {
   protected eliminarComentario($event: { id: number }) {
     this._comentarioService.eliminarComentario($event.id).subscribe(() => {
       if (this.tarea) {
+        this.loadingTarea.set(true);
         this.obtenerComentariosPorTareaId(this.tarea.id as number);
       }
     });

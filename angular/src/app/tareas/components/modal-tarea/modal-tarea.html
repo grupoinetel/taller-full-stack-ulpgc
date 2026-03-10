@@ -8,7 +8,7 @@
         @if (modo === 'detalle') {
           <app-detalle-modal-tarea
             [tarea]="tarea"
-            [dataLoaded]="loadingTarea() && loadingComentarios()"
+            [dataLoaded]="loadingTarea().valueOf()"
             [comentarios]="comentarios"
             (eliminarComentarioEvent)="eliminarComentario($event)"
             (agregarComentarioEvent)="agregarComentario($event)">
