@@ -29,12 +29,10 @@ public class ComentarioController {
         this.comentarioWebMapper = comentarioWebMapper;
     }
 
-    @GetMapping("/tarea/{id}")
-    public ResponseEntity<List<ComentarioResponse>> getComentariosDeTarea(@PathVariable("id") Long id) {
-        List<Comentario> comentarios = obtenerComentarioUseCase.obtenerComentariosDeTarea(id);
-
-        return ResponseEntity.ok(comentarioWebMapper.toComentarioResponseList(comentarios));
-    }
+    /**
+     * CREAMOS EL MAPPER
+     * ACCEDEMOS AL CASO DE USO Y REGRESAR COMENTARIOS TRANSFORMADOS AL RESPONSE
+     * */
 
     @GetMapping
     public ResponseEntity<List<ComentarioResponse>> getComentarios() {

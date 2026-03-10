@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface ObtenerComentarioUseCase {
 
-    List<Comentario> obtenerComentariosDeTarea(Long idTarea);
+    /**
+     * CREAMOS EL NUEVO METODO DEL CASO DE USO
+     */
 
     List<Comentario> consultarComentarios();
 }

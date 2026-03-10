@@ -59,12 +59,11 @@ public class ComentarioService implements
     }
 
     @Override
-    public List<Comentario> obtenerComentariosDeTarea(Long idTarea) {
-        return comentarioPersistencePort.findByTareaId(idTarea);
-    }
-
-    @Override
     public List<Comentario> consultarComentarios() {
         return comentarioPersistencePort.findAll();
     }
+
+    /**
+     * IMPLEMENTAMOS EL NUEVO METODO DEL CU
+     */
 }

@@ -15,5 +15,7 @@ public interface ComentarioPersistencePort {
 
     void delete(Long id);
 
-    List<Comentario> findByTareaId(Long id);
+    /**
+     * CREAMOS EL NUEVO METODO EN EL PERSISTENCE PORT HACIENDO USO DE LAS VENTAJAS QUE OFRECE SPRING* (SpringRepository)
+     */
 }

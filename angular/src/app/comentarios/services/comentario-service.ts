@@ -12,9 +12,10 @@ export class ComentarioService extends BaseService {
     return this.construirPeticionPost(`${idTarea}`, contenido);
   }
 
-  public obtenerComentariosTarea(idTarea: number) {
-    return this.construirPeticionGet(`tarea/${idTarea}`);
-  }
+  /**
+   * CREAMOS METODO DEL SERVICIO PARA OBTENER LOS COMENTARIOS DE UNA TAREA
+   * @param idTarea
+   */
 
   public eliminarComentario(id: number) {
     return this.construirPeticionDelete(`${id}`);

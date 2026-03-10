@@ -71,23 +71,13 @@ export class ModalTarea implements AfterViewInit {
       this.bsModal?.show();
       this.loadingTarea.set(false);
     } else {
-      this.loadingTarea.set(true);
-      this._tareaService.obtenerTareaPorId(tareaId).subscribe((tarea: DetalleTarea) => {
-        this.tarea = tarea;
-        this.obtenerComentariosPorTareaId(tarea.id);
-        this.bsModal?.show();
-        this.loadingTarea.set(false);
-      });
+      this.cargarTarea(tareaId);
     }
   }
 
-  obtenerComentariosPorTareaId(tareaId: number): void {
-    this.loadingComentarios.set(true);
-    this._comentarioService.obtenerComentariosTarea(tareaId).subscribe((comentarios: Comentario[]) => {
-      this.comentarios = comentarios;
-      this.loadingComentarios.set(false);
-    });
-  }
+  /**
+   * CREAMOS METODO PARA OBTENER LOS COMENTARIOS DE UNA TAREA
+   */
 
   editarTarea(): void {
     if (this.tarea) {
@@ -131,8 +121,20 @@ export class ModalTarea implements AfterViewInit {
   protected eliminarComentario($event: { id: number }) {
     this._comentarioService.eliminarComentario($event.id).subscribe(() => {
       if (this.tarea) {
-        this.obtenerComentariosPorTareaId(this.tarea.id as number);
+        this.cargarTarea(this.tarea.id as number);
+        /**
+         * OBTENER COMENTARIOS DE NUEVO
+         */
       }
+    });
+  }
+
+  cargarTarea(tareaId: number) {
+    this.loadingTarea.set(true);
+    this._tareaService.obtenerTareaPorId(tareaId).subscribe((tarea: DetalleTarea) => {
+      this.tarea = tarea;
+      this.bsModal?.show();
+      this.loadingTarea.set(false);
     });
   }
 }

@@ -43,11 +43,6 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
         comentarioSpringRepository.deleteById(id);
     }
 
-    @Override
-    public List<Comentario> findByTareaId(Long id) {
-        return comentarioSpringRepository.findByTareaId(id).stream().map(this::toDomain).collect(Collectors.toList());
-    }
-
     private ComentarioJpaEntity toJpaEntity(Comentario comentario) {
         ComentarioJpaEntity comentarioJpaEntity = new ComentarioJpaEntity(comentario.getId());
 
@@ -86,4 +81,8 @@ public class ComentarioAdapter implements ComentarioPersistencePort {
 
         return comentario;
     }
+
+    /**
+     * IMPLEMENTAMOS EL NUEVO METODO DEL PERSISTENCE PORT
+     */
 }
