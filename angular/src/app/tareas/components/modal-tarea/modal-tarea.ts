@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Signal,
   signal,
   ViewChild, WritableSignal
 } from '@angular/core';
@@ -49,8 +48,6 @@ export class ModalTarea implements AfterViewInit {
   comentarios: Comentario[] = [];
 
   loadingTarea: WritableSignal<boolean> = signal(true);
-
-  loadingComentarios: WritableSignal<boolean> = signal(true);
 
   modo: 'detalle' | 'formulario' = 'detalle';
 

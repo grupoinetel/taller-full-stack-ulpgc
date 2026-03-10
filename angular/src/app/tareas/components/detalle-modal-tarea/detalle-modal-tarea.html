@@ -18,9 +18,9 @@
             </button>
           }
         </div>
-        @if (tarea.comentarios.length) {
+        @if (!!comentarios && comentarios.length) {
           <div class="lista-comentarios">
-            @for (comentario of tarea.comentarios; track comentario.id) {
+            @for (comentario of comentarios; track comentario.id) {
               <div class="comentario-item">
                 <div class="autor-comentario">
                   <div class="d-flex flex-row align-items-center gap-2">
@@ -37,6 +37,7 @@
             }
           </div>
         } @else {
+          {{ comentarios?.length }}
           <p class="texto-vacio">Sin comentarios todavía.</p>
         }
 

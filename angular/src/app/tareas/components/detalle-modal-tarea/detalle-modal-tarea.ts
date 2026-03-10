@@ -27,7 +27,7 @@ export class DetalleModalTarea implements OnChanges {
   comentarios?: Comentario[];
 
   @Input()
-  dataLoaded = false;
+  dataLoaded: boolean = false;
 
   @Output() agregarComentarioEvent = new EventEmitter<{tareaId: number; mensaje: string}>();
   @Output() eliminarComentarioEvent = new EventEmitter<{id: number}>();
