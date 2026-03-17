@@ -6,7 +6,6 @@ import {PRIORIDAD_TAREA_COLORES, PRIORIDAD_TAREA_LABELS} from '../../model/Prior
 import {CATEGORIA_TAREA_COLORES, CATEGORIA_TAREA_LABELS} from '../../model/CategoriaTarea';
 import {DatePipe, NgClass} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Comentario} from '../../../comentarios/model/Comentario';
 
 @Component({
   selector: 'app-detalle-modal-tarea',
@@ -23,8 +22,9 @@ export class DetalleModalTarea implements OnChanges {
   @Input()
   tarea?: DetalleTarea;
 
-  @Input()
-  comentarios?: Comentario[];
+  /**
+   * AGREGAMOS INPUT PARA LOS COMENTARIOS
+   */
 
   @Input()
   dataLoaded: boolean = false;
