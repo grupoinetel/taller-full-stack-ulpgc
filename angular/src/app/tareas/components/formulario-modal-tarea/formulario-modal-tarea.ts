@@ -99,7 +99,6 @@ export class FormularioModalTarea implements OnChanges {
   guardarFormulario(): void {
     this.formularioTarea.markAllAsTouched();
     if (this.formularioTarea.invalid) {
-      //TODO: Aquí se puede añadir también alguna alerta
       window.alert('Existen errores en el formulario. Por favor, corrija los errores antes de guardar.');
       return;
     }
