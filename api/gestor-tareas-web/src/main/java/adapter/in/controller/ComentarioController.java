@@ -30,7 +30,7 @@ public class ComentarioController {
     }
 
     /**
-     * CREAMOS EL MAPPER
+     * CREAMOS EL GETTER
      * ACCEDEMOS AL CASO DE USO Y REGRESAR COMENTARIOS TRANSFORMADOS AL RESPONSE
      * */
 

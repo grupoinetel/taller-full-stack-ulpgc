@@ -16,6 +16,6 @@ public interface ComentarioPersistencePort {
     void delete(Long id);
 
     /**
-     * CREAMOS EL NUEVO METODO EN EL PERSISTENCE PORT HACIENDO USO DE LAS VENTAJAS QUE OFRECE SPRING* (SpringRepository)
+     * CREAMOS EL NUEVO METODO EN EL PERSISTENCE PORT
      */
 }

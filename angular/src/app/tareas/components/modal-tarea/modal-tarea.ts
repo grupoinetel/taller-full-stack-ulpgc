@@ -16,7 +16,6 @@ import {Usuario} from '../../../usuarios/model/Usuario';
 import {FormularioTarea} from '../../model/FormularioTarea';
 import {TareaService} from '../../services/tarea-service';
 import {ComentarioService} from '../../../comentarios/services/comentario-service';
-import {Comentario} from '../../../comentarios/model/Comentario';
 
 declare var bootstrap: any;
 
@@ -44,8 +43,6 @@ export class ModalTarea implements AfterViewInit {
   @Output() agregarComentarioEvent = new EventEmitter<{tareaId: number; mensaje: string}>();
 
   tarea?: DetalleTarea;
-
-  comentarios: Comentario[] = [];
 
   loadingTarea: WritableSignal<boolean> = signal(true);
 
@@ -111,7 +108,9 @@ export class ModalTarea implements AfterViewInit {
 
   private cerrarModal(): void {
     this.tarea = undefined;
-    this.comentarios = [];
+    /**
+     * LIMPIAMOS LOS COMENTARIOS
+     */
     this.bsModal?.hide();
   }
 
@@ -119,9 +118,6 @@ export class ModalTarea implements AfterViewInit {
     this._comentarioService.eliminarComentario($event.id).subscribe(() => {
       if (this.tarea) {
         this.cargarTarea(this.tarea.id as number);
-        /**
-         * OBTENER COMENTARIOS DE NUEVO
-         */
       }
     });
   }
