@@ -1,0 +1,20 @@
+<div class="card mb-3" (click)="abrirModalTarea(tarea.id)">
+  @if (tarea.imagenUrl) {
+    <img
+      class="card-img-top"
+      [src]="tarea.imagenUrl"
+      alt="Portada de la tarea"
+    />
+  }
+  <div class="card-body">
+    <span class="fw-bold">{{ tarea.numero | numeroTarea }}</span>
+    <h5 class="card-title">{{ tarea.titulo }}</h5>
+    <div>
+      <i class="bi bi-calendar-event me-2"></i>{{ tarea.fechaLimite | date: 'shortDate' }}
+    </div>
+    <span
+      class="badge text-bg-{{PRIORIDAD_TAREA_COLORES[tarea.prioridad]}} mt-2">
+              {{tarea.prioridad}}
+            </span>
+  </div>
+</div>

@@ -10,12 +10,14 @@ import {UsuarioService} from '../../../usuarios/services/usuario-service';
 import {ComentarioService} from '../../../comentarios/services/comentario-service';
 import {PreviewTarea} from '../../model/PreviewTarea';
 import {DatePipe} from '@angular/common';
+import {TarjetaPreviewTarea} from '../../components/preview-tarea/preview-tarea';
 
 @Component({
   selector: 'app-tablero-tareas',
   imports: [
     ModalTarea,
-    DatePipe
+    DatePipe,
+    TarjetaPreviewTarea
   ],
   templateUrl: './tablero-tareas.html',
   styleUrl: './tablero-tareas.scss',
