@@ -72,23 +72,6 @@ export class TableroTareasComponent implements OnInit {
     this.modalTarea?.abrirModal('formulario', null);
   }
 
-  protected formatearFechaLimite(fechaLimite?: string): string {
-    //TODO: Cambiar esto por un pipe que formatee la fecha y se use directamente en el HTML
-    if (!fechaLimite) {
-      return 'Sin fecha límite';
-    }
-
-    const fecha = new Date(fechaLimite);
-    if (Number.isNaN(fecha.getTime())) {
-      return fechaLimite;
-    }
-
-    return new Intl.DateTimeFormat('es-ES', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(fecha);
-  }
-
   protected abrirModalTarea(idTarea: number): void {
     if (idTarea) {
       this.modalTarea?.abrirModal('detalle', idTarea);
@@ -129,12 +112,6 @@ export class TableroTareasComponent implements OnInit {
   }
 
   protected agregarComentario(evento: {tareaId: number; mensaje: string}): void {
-    /* TODO:
-        -Cambiar por la llamada de agregar comentario
-        -Se asume que todos los comentarios están hechos por un usuario
-        - Quitar de la UI la responsabilidad de generar el ID del comentario
-
-     */
     const autor = this.usuarios[0];
     const mensaje = evento.mensaje.trim();
     if (!mensaje) {

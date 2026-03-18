@@ -13,7 +13,7 @@
         <div class="encabezado-comentarios">
           <h5 class="m-0"><i class="bi bi-chat-left-text"></i> Comentarios</h5>
           @if (!mostrandoFormularioComentario) {
-            <button type="button" class="btn btn-sm btn-outline-primary" (click)="mostrarFormularioComentario()">
+            <button disabled type="button" class="btn btn-sm btn-outline-primary" (click)="mostrarFormularioComentario()">
               Añadir
             </button>
           }
@@ -28,9 +28,8 @@
                     {{ comentario.autor.nombre }}
                   </div>
                   <span class="fecha-comentario">{{ comentario.fecha | date:"short" }}</span>
-                  <button (click)="borrarComentario(comentario.id)" class="btn btn-sm btn-outline-danger">
-                    <i class="bi bi-trash alert-danger"></i>
-                  </button>
+                  <!-- TODO: Añadir aquí el botón de eliminar comentario. Al pulsarse, debe emitir
+                              el evento eliminarComentarioEvent al componente padre-->
                 </div>
                 <p>{{ comentario.contenido }}</p>
               </div>
@@ -43,20 +42,10 @@
         @if (mostrandoFormularioComentario) {
           <div class="mt-3" [formGroup]="formularioComentario">
             <label class="form-label fw-bold" for="mensajeComentario">Nuevo comentario</label>
-            <textarea
-              id="mensajeComentario"
-              rows="3"
-              maxlength="1000"
-              class="form-control"
-              ngClass="{'is-invalid': formularioComentario.get('mensaje')?.invalid && formularioComentario.get('mensaje')?.touched}"
-              formControlName="mensaje"></textarea>
-            @if (formularioComentario.get('mensaje')?.invalid && formularioComentario.get('mensaje')?.touched) {
-              <div class="invalid-feedback d-block">El comentario es obligatorio.</div>
-            }
+            <!-- TODO: Añadir un textarea donde agregar el mensaje del comentario -->
+            <!-- TODO: Si no hay texto, debe aparecer un mensaje indicando que el comentario es obligatorio -->
             <div class="d-flex justify-content-end mt-2">
-              <button type="button" class="btn btn-sm btn-outline-primary" (click)="enviarComentario()">
-                Añadir comentario
-              </button>
+              <!-- TODO: Agregar un botón de añadir comentario que ejecute la función enviarComentario() al hacer click -->
             </div>
           </div>
         }

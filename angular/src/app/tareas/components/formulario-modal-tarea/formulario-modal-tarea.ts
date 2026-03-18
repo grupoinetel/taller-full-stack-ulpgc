@@ -147,7 +147,6 @@ export class FormularioModalTarea implements OnChanges {
   }
 
   obtenerUsuariosAsignables(): Usuario[] {
-    //TODO: Estos valores tienen que venir de una petición que se haya hecho anteriormente para obtener los usuarios
     const asignados = new Set(this.obtenerAsignadosSeleccionados());
     return this.usuarios.filter((usuario) => !asignados.has(usuario.id));
   }

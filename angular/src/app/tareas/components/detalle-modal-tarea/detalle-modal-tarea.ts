@@ -30,7 +30,7 @@ export class DetalleModalTarea implements OnChanges {
   dataLoaded: boolean = false;
 
   @Output() agregarComentarioEvent = new EventEmitter<{tareaId: number; mensaje: string}>();
-  @Output() eliminarComentarioEvent = new EventEmitter<{id: number}>();
+  @Output() eliminarComentarioEvent = new EventEmitter<number>();
 
   protected readonly ESTADO_TAREA_COLORES = ESTADO_TAREA_COLORES;
   protected readonly ESTADO_TAREA_LABELS = ESTADO_TAREA_LABELS;
@@ -42,8 +42,9 @@ export class DetalleModalTarea implements OnChanges {
   formularioComentario: any;
 
   constructor(private readonly formBuilder: FormBuilder) {
+    // TODO: Crear el campo mensaje del formulario, como requerido y con longitud máxima de 1000 caracteres
     this.formularioComentario = this.formBuilder.group({
-      mensaje: ['', [Validators.required, Validators.maxLength(1000)]],
+
     });
   }
 
@@ -85,6 +86,6 @@ export class DetalleModalTarea implements OnChanges {
   }
 
   protected borrarComentario(id: number) {
-    this.eliminarComentarioEvent.emit({id});
+    // TODO: Emitir el evento eliminarComentarioEvent al componente padre
   }
 }

@@ -114,12 +114,8 @@ export class ModalTarea implements AfterViewInit {
     this.bsModal?.hide();
   }
 
-  protected eliminarComentario($event: { id: number }) {
-    this._comentarioService.eliminarComentario($event.id).subscribe(() => {
-      if (this.tarea) {
-        this.cargarTarea(this.tarea.id as number);
-      }
-    });
+  protected eliminarComentario($event: number) {
+    //TODO: Emplear comentarioService para eliminar el comentario. Recargar la tarea.
   }
 
   cargarTarea(tareaId: number) {
