@@ -1,6 +1,10 @@
 # ✅ Gestor de tareas
 Aplicación web para la gestión de tareas estilo Kanban (tipo Trello), desarrollada con Angular en el frontend y Spring Boot en el backend, siguiendo principios de arquitectura hexagonal.
 
+
+<img width="2962" height="1532" alt="image" src="https://github.com/user-attachments/assets/f9e951bf-70c7-4f4b-8bbd-044189a7e8e3" />
+
+
 ## 🚀 Tecnologías utilizadas
 - Angular (v21)
 - TypeScript
